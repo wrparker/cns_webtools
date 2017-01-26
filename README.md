@@ -17,5 +17,8 @@ Steps:
 8. Make sure that you set SSH keys or else vagrant up will error
 9. vagrant up
 10. set hosts file homestead.app to 192.168.10.10
+11. git clone github.com/wrparker/cns_webtools
+12. run init.bash
+
 
 
