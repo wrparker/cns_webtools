@@ -1,5 +1,10 @@
 CNS Webtools Laravel application
 ======
+This is meant to be a set of tools for users at the University of Texas at Austin, College of Natural sciences to use to handle and manipulate data.
+
+Some portions of this application that include proprietary code will be removed in the public rendition of this software.  
+
+
 Installation Procedure:
 ------
 1. Install Vagrant/Virutal Box
