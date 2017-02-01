@@ -80,6 +80,7 @@
             <div class="content">
                 <div class="title m-b-md">
                     Laravel
+                    <?php echo  $name; ?>
                 </div>
 
                 <div class="links">
