@@ -1,9 +1,9 @@
 <?php
 
-namespace cns_webtools\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
-use cns_webtools\User;
-use cns_webtools\Http\Controllers\Controller;
+use App\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 

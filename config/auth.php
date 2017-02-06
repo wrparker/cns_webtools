@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => cns_webtools\User::class,
+            'model' => App\User::class,
         ],
 
         // 'users' => [
