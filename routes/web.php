@@ -14,3 +14,18 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('FundingOpportunityType/create/', function(){
+
+    return view('FundingOpportunities.createType');
+});
+
+/*Route::post('/create/FundingOpportunityType', function(){
+   return "success";
+});*/
+
+Route::get('/FundingOpportunityType', 'FundingOpportunityTypeController@index');
+Route::post('/FundingOpportunityType', 'FundingOpportunityTypeController@store');
+Route::delete('/FundingOpportunityType', 'FundingOpportunityTypeController@delete');
+#Come back and learn how to do Delete etc... ^6
