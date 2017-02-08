@@ -10,14 +10,14 @@
         </div>
         <button type="submit" class="btn btn-primary" id="createSubmitButton">Create Type</button>
     </form>
-<script type="text/javascript">
-    $( document ).ready(function() {
-        $('button[type=submit]').click(function() {
-            $(this).attr('disabled', 'disabled');
-            $(this).text("Sending...");
-            $(this).parents('form').submit()
-        })
-    });
-</script>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            $('button[type=submit]').click(function() {
+                $(this).attr('disabled', 'disabled');
+                $(this).text("Sending...");
+                $(this).parents('form').submit()
+            })
+        });
+    </script>
 @endsection
 

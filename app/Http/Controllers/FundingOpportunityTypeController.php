@@ -27,13 +27,9 @@ class FundingOpportunityTypeController extends Controller
 
     }
 
-    //TODO Refactor.
+    //TODO Refactor--add documentation in code.
     public function index(){
         $types = FundingOpportunityType::orderBy('id', 'desc')->paginate(10);
-       //$types = FundingOpportunityType::orderby('id', 'desc')->Paginate(10);
-        //$types->orderby('id', 'desc');
-
-
         return view ('FundingOpportunities.listType', compact('types'));
     }
 

@@ -25,10 +25,13 @@ Route::get('FundingOpportunityType/create/', function(){
    return "success";
 });*/
 
-/*Route::get('/FundingOpportunityType', 'FundingOpportunityTypeController@index');
-Route::post('/FundingOpportunityType', 'FundingOpportunityTypeController@store');
-Route::delete('/FundingOpportunityType/delete/{id}', 'FundingOpportunityTypeController@delete');*/
-
-
+#Use CRUD URLs
 Route::resource('FundingOpportunityTypes', 'FundingOpportunityTypeController');
-#Come back and learn how to do Delete etc... ^6
+
+
+
+
+Route::get('/test', function(){
+   $test = \App\FundingOpportunityType::getDropdownHTMLList();
+    return view('layout', compact('test'));
+});
