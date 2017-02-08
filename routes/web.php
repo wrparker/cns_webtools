@@ -25,7 +25,10 @@ Route::get('FundingOpportunityType/create/', function(){
    return "success";
 });*/
 
-Route::get('/FundingOpportunityType', 'FundingOpportunityTypeController@index');
+/*Route::get('/FundingOpportunityType', 'FundingOpportunityTypeController@index');
 Route::post('/FundingOpportunityType', 'FundingOpportunityTypeController@store');
-Route::delete('/FundingOpportunityType', 'FundingOpportunityTypeController@delete');
+Route::delete('/FundingOpportunityType/delete/{id}', 'FundingOpportunityTypeController@delete');*/
+
+
+Route::resource('FundingOpportunityTypes', 'FundingOpportunityTypeController');
 #Come back and learn how to do Delete etc... ^6
