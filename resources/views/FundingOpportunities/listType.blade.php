@@ -11,7 +11,7 @@
     that has Funding Opportunities associated with it.
 </p>
 
-<a href="{{URL::to('FundingOpportunityTypes')}}/create" class="btn btn-success">Create an Opportunity Type</a>
+<a href="{{route('FundingOpportunityTypes.create')}}" class="btn btn-success">Create an Opportunity Type</a>
 <p>&nbsp;</p>
     @if(isset($types))
     <table class="table-bordered">
@@ -25,13 +25,14 @@
             @foreach($types as $type)
             <tr>
                 <td>
-                    {{$type->type}}
+                    {{$type->name}}
                 </td>
                 <td>
-                    <a href="{{URL::to('FundingOpportunityTypes')}}/{{$type->id}}/edit" class="btn btn-info">Edit</a>
+                    <a href="{{route('FundingOpportunityTypes.edit', $type->id)}}" class="btn btn-info">Edit</a>
                 </td>
                 <td>
-                    <form method="post" action="{{URL::to('FundingOpportunityTypes')}}/{{$type->id}}"}} onsubmit="return ConfirmDelete()">
+                    <form method="post" action="{{route('FundingOpportunityTypes.destroy', $type->id)}}"
+                          onsubmit="return ConfirmDelete()">
                         {{csrf_field()}}
                         <input type="hidden" id="_method" name="_method" value="delete">
                         <button type="submit" class="btn btn-danger" style="margin-top:15px">Delete</button>

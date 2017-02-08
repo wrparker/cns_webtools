@@ -17,13 +17,13 @@ class FundingOpportunityTypeController extends Controller
 
         $fundingOppType = new FundingOpportunityType;
 
-        $fundingOppType->type = $request->input('fundingType');
+        $fundingOppType->name = $request->input('fundingType');
         $fundingOppType->timestamps;
         $fundingOppType->save();
 
-        $request->session()->flash('status', 'Task was successful!');
+        $request->session()->flash('status', 'Successfully created Funding Type: ' .$fundingOppType->name);
 
-        return redirect(URL::to('FundingOpportunityTypes'));
+        return redirect(route('FundingOpportunityTypes.index'));
 
     }
 
@@ -46,8 +46,8 @@ class FundingOpportunityTypeController extends Controller
     public function destroy($id, Request $request){
         $deleteMe = FundingOpportunityType::find($id);
         $deleteMe->delete();
-        $request->session()->flash("status", "Successfully deleted the Funding Opportunity Type - \"" .$deleteMe->type."\" !");
-        return redirect('FundingOpportunityTypes');
+        $request->session()->flash("status", "Successfully deleted the Funding Opportunity Type - \"" .$deleteMe->name."\" !");
+        return redirect(route('FundingOpportunityTypes.index'));
     }
     public function update($id, Request $request){
         $this->validate($request, [
@@ -55,11 +55,11 @@ class FundingOpportunityTypeController extends Controller
         ]);
 
         $updateMe = FundingOpportunityType::find($id);
-        $oldName = $updateMe->type;
-        $updateMe->type = $request->input('fundingType');
+        $oldName = $updateMe->name;
+        $updateMe->name = $request->input('fundingType');
         $updateMe->save();
-        $request->session()->flash("status", "Successfully updated \"".$oldName."\" to  \"" .$updateMe->type."\" !");
-        return redirect(URL::to('FundingOpportunityTypes'));
+        $request->session()->flash("status", "Successfully updated \"".$oldName."\" to  \"" .$updateMe->name."\" !");
+        return redirect(route('FundingOpportunityTypes.index'));
     }
 
     public function show($id){

@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-    <form method="post" action="{{URL::to('FundingOpportunityTypes')}}" >
+    <form method="post" action="{{route('FundingOpportunityTypes.store')}}" >
         {{csrf_field()}}
         <div class="form-group">
             <label for="fundingType">Opportunity Type</label>

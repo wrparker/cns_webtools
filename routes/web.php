@@ -26,12 +26,20 @@ Route::get('FundingOpportunityType/create/', function(){
 });*/
 
 #Use CRUD URLs
-Route::resource('FundingOpportunityTypes', 'FundingOpportunityTypeController');
-
-
-
+Route::group(['prefix' => 'FundingOpportunities'], function() {
+    Route::resource('types', 'FundingOpportunityTypeController', ['names' => [
+        'index' => 'FundingOpportunityTypes.index',
+        'create' => 'FundingOpportunityTypes.create',
+        'store' => 'FundingOpportunityTypes.store',
+        'show' => 'FundingOpportunityTypes.show',
+        'edit' => 'FundingOpportunityTypes.edit',
+        'update' => 'FundingOpportunityTypes.update',
+        'destroy' => 'FundingOpportunityTypes.destroy'
+    ]]);
+});
 
 Route::get('/test', function(){
-   $test = \App\FundingOpportunityType::getDropdownHTMLList();
-    return view('layout', compact('test'));
+   return \App\FundingOpportunityType::getDropdownHTMLList();
 });
+
+

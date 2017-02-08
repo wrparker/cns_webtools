@@ -16,7 +16,7 @@ class CreateFundingOpportunityTypesTable extends Migration
         Schema::create('funding_opportunity_types', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->text('type');
+            $table->text('name');
         });
     }
 
