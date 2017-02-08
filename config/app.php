@@ -171,11 +171,11 @@ return [
         /*
          * Application Service Providers...
          */
-        cns_webtools\Providers\AppServiceProvider::class,
-        cns_webtools\Providers\AuthServiceProvider::class,
-        // cns_webtools\Providers\BroadcastServiceProvider::class,
-        cns_webtools\Providers\EventServiceProvider::class,
-        cns_webtools\Providers\RouteServiceProvider::class,
+        App\Providers\AppServiceProvider::class,
+        App\Providers\AuthServiceProvider::class,
+        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\EventServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
 
     ],
 

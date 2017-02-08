@@ -1,6 +1,6 @@
 <?php
 
-namespace cns_webtools\Providers;
+namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
