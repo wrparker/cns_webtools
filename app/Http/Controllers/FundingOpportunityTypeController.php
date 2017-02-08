@@ -29,7 +29,9 @@ class FundingOpportunityTypeController extends Controller
 
     //TODO Refactor.
     public function index(){
-        $types = FundingOpportunityType::Paginate(10);
+        $types = FundingOpportunityType::orderBy('id', 'desc')->paginate(10);
+       //$types = FundingOpportunityType::orderby('id', 'desc')->Paginate(10);
+        //$types->orderby('id', 'desc');
 
 
         return view ('FundingOpportunities.listType', compact('types'));
@@ -57,8 +59,10 @@ class FundingOpportunityTypeController extends Controller
         ]);
 
         $updateMe = FundingOpportunityType::find($id);
+        $oldName = $updateMe->type;
         $updateMe->type = $request->input('fundingType');
         $updateMe->save();
+        $request->session()->flash("status", "Successfully updated \"".$oldName."\" to  \"" .$updateMe->type."\" !");
         return redirect(URL::to('FundingOpportunityTypes'));
     }
 
