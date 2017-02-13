@@ -1,5 +1,6 @@
 <?php
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,6 +36,16 @@ Route::group(['prefix' => 'FundingOpportunities'], function() {
         'edit' => 'FundingOpportunityTypes.edit',
         'update' => 'FundingOpportunityTypes.update',
         'destroy' => 'FundingOpportunityTypes.destroy'
+    ]]);
+
+    Route::resource('/', 'FundingOpportunityController', ['names' => [
+        'index' => 'FundingOpportunities.index',
+        'create' => 'FundingOpportunities.create',
+        'store' => 'FundingOpportunities.store',
+        'show' => 'FundingOpportunities.show',
+        'edit' => 'FundingOpportunities.edit',
+        'update' => 'FundingOpportunities.update',
+        'destroy' => 'FundingOpportunities.destroy'
     ]]);
 });
 
