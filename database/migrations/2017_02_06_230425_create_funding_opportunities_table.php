@@ -15,11 +15,13 @@ class CreateFundingOpportunitiesTable extends Migration
     {
         Schema::create('funding_opportunities', function (Blueprint $table) {
             $table->increments('id');
+            $table->text('name');
             $table->timestamps();
             $table->dateTime('announced');
             $table->dateTime('sponsor_deadline');
             $table->dateTime('internal_deadline');
-            $table->text('link');
+            $table->text('link_internal');
+            $table->text('link_external');
 
             $table->boolean('visible');
             $table->boolean('limited_submission'); #yes/no
