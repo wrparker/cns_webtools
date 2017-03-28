@@ -27,7 +27,7 @@ Route::get('FundingOpportunityType/create/', function(){
 });*/
 
 #Use CRUD URLs
-Route::group(['prefix' => 'FundingOpportunities'], function() {
+Route::group(['prefix' => 'funding-opportunities'], function() {
     Route::resource('types', 'FundingOpportunityTypeController', ['names' => [
         'index' => 'FundingOpportunityTypes.index',
         'create' => 'FundingOpportunityTypes.create',
