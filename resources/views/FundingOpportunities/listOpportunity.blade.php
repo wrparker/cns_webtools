@@ -5,14 +5,15 @@
 
 @section('content')
 
-<h1> Funding Opportunity Types</h1>
+<h1> Funding Opportunities</h1>
 <p>
     The following are funding types that have been put into the system.  Please note: you cannot delete a funding type
     that has Funding Opportunities associated with it.
 </p>
 
-<a href="{{route('FundingOpportunities.create')}}" class="btn btn-success">Create an Opportunity Type</a>
-<p>&nbsp;</p>
+<p><a href="{{route('FundingOpportunities.create')}}" class="btn btn-success">Create a Funding Opportunity</a></p>
+<p><a href="{{route('FundingOpportunityTypes.index')}}" class="btn btn-success">List Opportunity Types</a></p>
+
     @if(isset($FundingOpportunities))
     <table class="table-bordered">
         <thead>
