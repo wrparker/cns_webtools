@@ -13,6 +13,7 @@
 */
 
 Route::get('/', function () {
+    //TO-DO: refactor this into a controller.
     if(Auth::check()){
         return view('home');
     }
@@ -22,27 +23,8 @@ Route::get('/', function () {
 });
 
 
-Route::get('FundingOpportunityType/create/', function(){
-
-    return view('FundingOpportunities.createType');
-});
-
-/*Route::post('/create/FundingOpportunityType', function(){
-   return "success";
-});*/
-
 #Use CRUD URLs
 Route::group(['prefix' => 'funding-opportunities'], function() {
-    Route::resource('types', 'FundingOpportunityTypeController', ['names' => [
-        'index' => 'FundingOpportunityTypes.index',
-        'create' => 'FundingOpportunityTypes.create',
-        'store' => 'FundingOpportunityTypes.store',
-        'show' => 'FundingOpportunityTypes.show',
-        'edit' => 'FundingOpportunityTypes.edit',
-        'update' => 'FundingOpportunityTypes.update',
-        'destroy' => 'FundingOpportunityTypes.destroy'
-    ]]);
-
     Route::resource('/', 'FundingOpportunityController', ['names' => [
         'index' => 'FundingOpportunities.index',
         'create' => 'FundingOpportunities.create',
@@ -54,12 +36,9 @@ Route::group(['prefix' => 'funding-opportunities'], function() {
     ]]);
 });
 
-Route::get('/test', function(){
-   return \App\FundingOpportunityType::getDropdownHTMLList();
-});
-
-
-
 Auth::routes();
 
+
 Route::get('/home', 'HomeController@index');
+
+Route::get('register', ['as' => 'auth.register', 'uses' => 'Auth\RegisterController@showRegistrationForm']);

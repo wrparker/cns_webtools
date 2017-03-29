@@ -67,7 +67,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'username' => $data['username']
+            'username' => $data['username'],
+            'enabled' => false,
         ]);
     }
 
@@ -78,6 +79,16 @@ class RegisterController extends Controller
     public function username()
     {
         return 'username';
+    }
+
+    public function showRegistrationForm()
+    {
+        return redirect('login');
+    }
+
+    public function register()
+    {
+
     }
 
 }
