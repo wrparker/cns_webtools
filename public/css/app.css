@@ -1,0 +1,21 @@
+.datepick{
+    max-width:125px;
+}
+
+.navbar,
+.navbar-default .navbar-brand{
+    background-color:#bf5600;
+    color:#ffffff;
+}
+
+.navbar-default .navbar-toggle .icon-bar{
+    background-color:#ffffff;
+}
+.navbar-default .navbar-nav > li > a{
+    color: #ffffff;
+}
+
+.panel-default > .panel-heading{
+    background-color:#bf5600;
+    color: #ffffff;
+}
