@@ -8,7 +8,11 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    You are logged in!
+                <?php $user = Auth::user(); ?>
+                    You are a member of:
+                @foreach ($user->groups as $group)
+                        <p>{{$group->name}}</p>
+                    @endforeach
                 </div>
             </div>
         </div>
