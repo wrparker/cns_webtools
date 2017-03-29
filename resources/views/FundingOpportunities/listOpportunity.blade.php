@@ -1,10 +1,10 @@
 
 
-@extends('layout')
+@extends('layouts.app')
 
 
 @section('content')
-
+<div class="container">
 <h1> Funding Opportunities</h1>
 <p>
     The following are funding types that have been put into the system.  Please note: you cannot delete a funding type
@@ -28,10 +28,10 @@
                     {{$FundingOpportunity->name}}
                 </td>
                 <td>
-                    <a href="{{route('FundingOpportunityTypes.edit', $FundingOpportunity->id)}}" class="btn btn-info">Edit</a>
+                    <a href="{{route('FundingOpportunities.edit', $FundingOpportunity->id)}}" class="btn btn-info">Edit</a>
                 </td>
                 <td>
-                    <form method="post" action="{{route('FundingOpportunityTypes.destroy', $FundingOpportunity->id)}}"
+                    <form method="post" action="{{route('FundingOpportunities.destroy', $FundingOpportunity->id)}}"
                           onsubmit="return ConfirmDelete()">
                         {{csrf_field()}}
                         <input type="hidden" id="_method" name="_method" value="delete">
@@ -46,6 +46,7 @@
         @else
             <p>There are currently no funding opportunities available.</p>
         @endif
+</div>
 
 <script>
 

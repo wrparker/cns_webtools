@@ -35,6 +35,14 @@
             </select>
         </div>
 
+
+
+        <div class="form-group">
+            <label for="funding_type">Funding Type:</label>
+            <input type="text" class="form-control" name="funding_type" id="funding_type" aria-describedby="funding_type" placeholder="">
+            <small id="funding_type" class="form-text text-muted">Funding Type</small>
+        </div>
+
         <div class="form-group">
             <label for="link_external">External Documentation Link</label>
             <input type="text" class="form-control" name="link_external" id="link_external" aria-describedby="link_externalHelp" placeholder="">

@@ -26,9 +26,9 @@ class CreateFundingOpportunitiesTable extends Migration
             $table->boolean('visible');
             $table->boolean('limited_submission'); #yes/no
             $table->boolean('status'); #true = open, false = closed/recurring.
+            $table->text('funding_type');
 
             #FKs
-            $table->integer('type');
             $table->integer('user');
         });
     }
