@@ -40,5 +40,3 @@ Auth::routes();
 
 
 Route::get('/home', 'HomeController@index');
-
-Route::get('register', ['as' => 'auth.register', 'uses' => 'Auth\RegisterController@showRegistrationForm']);

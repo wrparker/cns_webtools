@@ -81,6 +81,7 @@ class RegisterController extends Controller
         return 'username';
     }
 
+    /*disable user registration that is default wiht make:auth in laravel*/
     public function showRegistrationForm()
     {
         return redirect('login');
@@ -90,5 +91,6 @@ class RegisterController extends Controller
     {
 
     }
+    /*end disable*/
 
 }
