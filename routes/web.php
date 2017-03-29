@@ -13,7 +13,12 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if(Auth::check()){
+        return view('home');
+    }
+    else{
+        return view('auth.login');
+    }
 });
 
 
@@ -54,3 +59,7 @@ Route::get('/test', function(){
 });
 
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
