@@ -17,18 +17,18 @@ class CreateFundingOpportunitiesTable extends Migration
             $table->increments('id');
             $table->text('name');
             $table->timestamps();
-            $table->dateTime('announced');
-            $table->dateTime('sponsor_deadline');
-            $table->dateTime('internal_deadline');
+            $table->text('announced');
+            $table->text('sponsor_deadline');
+            $table->text('internal_deadline');
             $table->text('link_internal');
             $table->text('link_external');
 
             $table->boolean('visible');
             $table->boolean('limited_submission'); #yes/no
             $table->boolean('status'); #true = open, false = closed/recurring.
+            $table->text('funding_type');
 
             #FKs
-            $table->integer('type');
             $table->integer('user');
         });
     }

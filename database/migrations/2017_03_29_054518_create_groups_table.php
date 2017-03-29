@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFundingOpportunityTypesTable extends Migration
+class CreateGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,20 @@ class CreateFundingOpportunityTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('funding_opportunity_types', function (Blueprint $table) {
+        Schema::create('groups', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->text('name');
+            $table->string('name');
         });
+
+        DB::table('groups')->insert(
+            array(
+                'id' => '1',
+                'name' => 'Super User',
+            )
+        );
+
+
     }
 
     /**
@@ -27,6 +36,7 @@ class CreateFundingOpportunityTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('funding_opportunity_types');
+        Schema::dropIfExists('groups');
     }
 }
+

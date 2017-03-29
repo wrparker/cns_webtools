@@ -1,6 +1,7 @@
-@extends('layout')
+@extends('layouts.app')
 
 @section('content')
+    <div class="container">
     <form method="post" action="{{route('FundingOpportunities.store')}}" >
         {{csrf_field()}}
         <div class="form-group">
@@ -34,7 +35,14 @@
             </select>
         </div>
 
-        {!! \App\FundingOpportunityType::getDropdownHTMLList() !!}
+
+
+        <div class="form-group">
+            <label for="funding_type">Funding Type:</label>
+            <input type="text" class="form-control" name="funding_type" id="funding_type" aria-describedby="funding_type" placeholder="">
+            <small id="funding_type" class="form-text text-muted">Funding Type</small>
+        </div>
+
         <div class="form-group">
             <label for="link_external">External Documentation Link</label>
             <input type="text" class="form-control" name="link_external" id="link_external" aria-describedby="link_externalHelp" placeholder="">
@@ -48,24 +56,28 @@
 
         <div class="form-group">
             <label for="announced">Announced</label>
-            <input type="text" class="form-control" name="announced" id="announced" aria-describedby="announcedHelp" placeholder="">
+            <input class="form-control datepick" id="announced" name="announced" placeholder="MM/DD/YYYY" type="text"/>
             <small id="announcedHelp" class="form-text text-muted">UT box Link, or UT webpage, etc...</small>
+            <span class="glyphicon glyphicon-calendar"></span>
         </div>
 
         <div class="form-group">
             <label for="sponsor_deadline">Sponsor Deadline</label>
-            <input type="text" class="form-control" name="sponsor_deadline" id="sponsor_deadline" aria-describedby="sponsor_deadlineHelp" placeholder="">
+            <input type="text" class="form-control datepick" name="sponsor_deadline" id="sponsor_deadline" aria-describedby="sponsor_deadlineHelp" placeholder="MM/DD/YYYY">
+            <span class="glyphicon glyphicon-calendar"></span>
             <small id="sponsor_deadlineHelp" class="form-text text-muted">UT box Link, or UT webpage, etc...</small>
         </div>
 
         <div class="form-group">
             <label for="internal_deadline">Internal Deadline</label>
-            <input type="text" class="form-control" name="internal_deadline" id="internal_deadline" aria-describedby="internal_deadlineHelp" placeholder="">
+            <input type="text" class="form-control datepick" name="internal_deadline" id="internal_deadline" aria-describedby="internal_deadlineHelp" placeholder="MM/DD/YYYY">
+            <span class="glyphicon glyphicon-calendar"></span>
             <small id="internal_deadlineHelp" class="form-text text-muted">UT box Link, or UT webpage, etc...</small>
         </div>
 
         <button type="submit" class="btn btn-primary" id="createSubmitButton">Create Opportunity</button>
     </form>
+    </div>
     <script type="text/javascript">
         $( document ).ready(function() {
             $('button[type=submit]').click(function() {

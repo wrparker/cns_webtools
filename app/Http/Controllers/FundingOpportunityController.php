@@ -54,9 +54,8 @@ class FundingOpportunityController extends Controller
         $fundingOpp->limited_submission = $request->input('limited_submission');
         $fundingOpp->status = $request->input('status');
         $fundingOpp->user = -1;
-        $fundingOpp->type = $request->input('fundingType');
+        $fundingOpp->funding_type = $request->input('funding_type');
 
-        //$fundingOpp->type = $request->input('fundingType');
 
         $fundingOpp->timestamps;
         $fundingOpp->save();

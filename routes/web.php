@@ -13,31 +13,18 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    //TO-DO: refactor this into a controller.
+    if(Auth::check()){
+        return view('home');
+    }
+    else{
+        return view('auth.login');
+    }
 });
 
-
-Route::get('FundingOpportunityType/create/', function(){
-
-    return view('FundingOpportunities.createType');
-});
-
-/*Route::post('/create/FundingOpportunityType', function(){
-   return "success";
-});*/
 
 #Use CRUD URLs
-Route::group(['prefix' => 'FundingOpportunities'], function() {
-    Route::resource('types', 'FundingOpportunityTypeController', ['names' => [
-        'index' => 'FundingOpportunityTypes.index',
-        'create' => 'FundingOpportunityTypes.create',
-        'store' => 'FundingOpportunityTypes.store',
-        'show' => 'FundingOpportunityTypes.show',
-        'edit' => 'FundingOpportunityTypes.edit',
-        'update' => 'FundingOpportunityTypes.update',
-        'destroy' => 'FundingOpportunityTypes.destroy'
-    ]]);
-
+Route::group(['prefix' => 'funding-opportunities'], function() {
     Route::resource('/', 'FundingOpportunityController', ['names' => [
         'index' => 'FundingOpportunities.index',
         'create' => 'FundingOpportunities.create',
@@ -49,8 +36,7 @@ Route::group(['prefix' => 'FundingOpportunities'], function() {
     ]]);
 });
 
-Route::get('/test', function(){
-   return \App\FundingOpportunityType::getDropdownHTMLList();
-});
+Auth::routes();
 
 
+Route::get('/home', 'HomeController@index');
