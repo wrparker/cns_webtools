@@ -1,11 +1,7 @@
-@extends('layout')
+@extends('layouts.app')
 
 @section('content')
-    <style>
-        .datepick{
-            width:125px;
-        }
-    </style>
+    <div class="container">
     <form method="post" action="{{route('FundingOpportunities.store')}}" >
         {{csrf_field()}}
         <div class="form-group">
@@ -73,6 +69,7 @@
 
         <button type="submit" class="btn btn-primary" id="createSubmitButton">Create Opportunity</button>
     </form>
+    </div>
     <script type="text/javascript">
         $( document ).ready(function() {
             $('button[type=submit]').click(function() {
