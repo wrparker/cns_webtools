@@ -27,10 +27,11 @@ class CreateUsersTable extends Migration
         DB::table('users')->insert(
             array(
                 'id' => 1,
-                'email' => 'admin@admin.com',  //fix this... later//
+                'email' => 'webmaster@localhost',  //fix this... later//
                 'enabled' => true,
-                'name' => 'admin',
-                'password' => '$2y$10$OSwT0FOe6/Sc9MQDZJdmC.IeB4p/2ttLw3Qa/PZQWmpxIAIc8B2bi'  //Default password is admin
+                'name' => 'Super User',
+                'password' => '$2y$10$OSwT0FOe6/Sc9MQDZJdmC.IeB4p/2ttLw3Qa/PZQWmpxIAIc8B2bi',
+                'username' => 'admin'//Default password is admin
             )
         );
     }
