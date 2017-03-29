@@ -12,7 +12,6 @@
 </p>
 
 <p><a href="{{route('FundingOpportunities.create')}}" class="btn btn-success">Create a Funding Opportunity</a></p>
-<p><a href="{{route('FundingOpportunityTypes.index')}}" class="btn btn-success">List Opportunity Types</a></p>
 
     @if(isset($FundingOpportunities))
     <table class="table-bordered">
