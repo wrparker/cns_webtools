@@ -7,6 +7,7 @@
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">Funding Opportunities</div>
+            <div class="container">
 <h1> Funding Opportunities</h1>
 <p>
     The following are funding types that have been put into the system.  Please note: you cannot delete a funding type
@@ -48,7 +49,7 @@
         @else
             <p>There are currently no funding opportunities available.</p>
         @endif
-        </div></div></div>
+        </div></div></div></div>
 
 <script>
 
