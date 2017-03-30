@@ -95,15 +95,18 @@ class FundingOpportunityController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FundingOpportunity $id)
+    public function destroy(Request $request, $id)
     {
+
         $fundingOpp = FundingOpportunity::findorFail($id);
         $name = $fundingOpp->name;
         $fundingOpp->delete();
-        Request::session()->flash('status', 'Successfully deleted Funding Opportunity: ' .$name);
+        $request->session()->flash('status', 'Successfully deleted Funding Opportunity: ' .$name);
+        return redirect(route('FundingOpportunities.index'));
     }
 
     private function request_to_DB_fields($fundingOpp, $request){

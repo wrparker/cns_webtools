@@ -114,17 +114,6 @@
                 $(this).text("Sending...");
                 $(this).parents('form').submit()
             });
-            //init
-                var color = $('.colorchanger');
-                var state =color.val();
-                if(state == "0"){
-                    color.css('background-color', 'orangered');
-                }
-                else{
-                    color.css('background-color', 'greenyellow');
-                }
-
-
 
             $('.colorchanger').change(function() {
                var state =$(this).val();
