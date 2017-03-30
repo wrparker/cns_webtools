@@ -37,11 +37,6 @@ class FundingOpportunityController extends Controller
     public function store(Request $request)
     {
         //
-
-       /* $this->validate($request, [
-            'fundingType' => 'required|max:255'
-        ]);*/
-
         $fundingOpp = new FundingOpportunity();
         $fundingOpp = $this->request_to_DB_fields($fundingOpp, $request);
         $fundingOpp->save();
@@ -109,7 +104,8 @@ class FundingOpportunityController extends Controller
         return redirect(route('FundingOpportunities.index'));
     }
 
-    private function request_to_DB_fields($fundingOpp, $request){
+    private function request_to_DB_fields($fundingOpp, Request $request){
+        $this->request_through_validator($request);
         $fundingOpp->name = $request->input('name');
         $fundingOpp->timestamps;
         $fundingOpp->announced = $request->input('announced');
@@ -125,4 +121,21 @@ class FundingOpportunityController extends Controller
         $fundingOpp->timestamps;
         return $fundingOpp;
     }
+
+    private function request_through_validator(Request $request){
+        $this->validate($request, [
+            'name' => 'required',
+            'visible' => 'required|boolean',
+            'status' => 'required|boolean',
+            'limited_submission' => 'required|boolean',
+            'announced' => 'required|date_format:m/d/Y',
+            'sponsor_deadline'=> 'required|date_format:m/d/Y',
+            'internal_deadline'=> 'required|date_format:m/d/Y',
+            'internal_deadline'=> 'required|date_format:m/d/Y',
+            'funding_type'=> 'required',  //Uncomment when fixed...
+        ]);
+
+    }
+
+
 }
