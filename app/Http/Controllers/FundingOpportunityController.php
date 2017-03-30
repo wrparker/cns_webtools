@@ -25,7 +25,7 @@ class FundingOpportunityController extends Controller
      */
     public function create()
     {
-        return view('FundingOpportunities.createOpportunity');
+        return view('FundingOpportunities.opportunityEditor');
     }
 
     /**
@@ -70,7 +70,7 @@ class FundingOpportunityController extends Controller
     public function edit($id)
     {
         $funding_opp = FundingOpportunity::findOrFail($id);
-        return view('FundingOpportunities.createOpportunity')->with('fundingOpp', $funding_opp);
+        return view('FundingOpportunities.opportunityEditor')->with('fundingOpp', $funding_opp);
 
     }
 
