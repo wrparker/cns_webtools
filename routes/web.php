@@ -24,8 +24,7 @@ Route::get('/', function () {
 
 
 #Use CRUD URLs
-Route::group(['prefix' => 'funding-opportunities'], function() {
-    Route::resource('/', 'FundingOpportunityController', ['names' => [
+Route::resource('funding-opportunities', 'FundingOpportunityController', ['names' => [
         'index' => 'FundingOpportunities.index',
         'create' => 'FundingOpportunities.create',
         'store' => 'FundingOpportunities.store',
@@ -33,8 +32,8 @@ Route::group(['prefix' => 'funding-opportunities'], function() {
         'edit' => 'FundingOpportunities.edit',
         'update' => 'FundingOpportunities.update',
         'destroy' => 'FundingOpportunities.destroy'
-    ]]);
-});
+]]);
+
 
 Auth::routes();
 

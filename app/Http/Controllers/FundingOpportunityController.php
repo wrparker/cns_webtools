@@ -72,9 +72,15 @@ class FundingOpportunityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(FundingOpportunity $fundingopportunity)
     {
         //
+        return $fundingopportunity;
+        return $id;
+        $f = FundingOpportunity::find(1);
+        return $f;
+        //return $id->name;
+        //dd($id);
     }
 
     /**
@@ -85,7 +91,8 @@ class FundingOpportunityController extends Controller
      */
     public function edit($id)
     {
-        //
+        $funding_opp = FundingOpportunity::findOrFail($id);
+        return view('FundingOpportunities.createOpportunity')->with('fundingOpp', $funding_opp);
     }
 
     /**
@@ -106,8 +113,9 @@ class FundingOpportunityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(FundingOpportunity $id)
     {
-        //
+        $id->delete();
+        return "done";
     }
 }

@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+
+    @if(isset($fundingOpp))
+        <h1>HIHIHIHIHIHI</h1>
+        @endif
     <div class="container">
     <div class="panel panel-default">
         <div class="panel-heading">Funding Opportunities</div>
