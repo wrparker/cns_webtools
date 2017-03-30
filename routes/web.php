@@ -40,3 +40,10 @@ Auth::routes();
 
 
 Route::get('/home', 'HomeController@index');
+
+/* the big to-do list
+1. group_user needs a controller to control users getting added to group.  Use sync--figureo uto how it handles detach.
+2. let admins create users.
+3. math phd students
+4. home page should be a layout of apps.
+*/
