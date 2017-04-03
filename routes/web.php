@@ -13,14 +13,8 @@
 */
 
 Route::get('/', function () {
-    //TO-DO: refactor this into a controller.
-    if(Auth::check()){
-        return view('home');
-    }
-    else{
-        return view('auth.login');
-    }
-});
+     return view('home');
+})->middleware('auth');
 
 
 #Use CRUD URLs
@@ -37,6 +31,7 @@ Route::resource('funding-opportunities', 'FundingOpportunityController', ['names
 
 Auth::routes();
 
+Route::get('/createUser', 'Auth\RegisterController@showRegistrationForm');
 
 Route::get('/home', 'HomeController@index');
 

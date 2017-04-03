@@ -36,7 +36,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('auth');
     }
 
     /**
@@ -80,17 +80,4 @@ class RegisterController extends Controller
     {
         return 'username';
     }
-
-    /*disable user registration that is default wiht make:auth in laravel*/
-    public function showRegistrationForm()
-    {
-        return redirect('login');
-    }
-
-    public function register()
-    {
-
-    }
-    /*end disable*/
-
 }
