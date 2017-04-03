@@ -23,17 +23,6 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->boolean('enabled')->default(false);
         });
-
-        DB::table('users')->insert(
-            array(
-                'id' => 1,
-                'email' => 'webmaster@localhost',  //fix this... later//
-                'enabled' => true,
-                'name' => 'Super User',
-                'password' => '$2y$10$OSwT0FOe6/Sc9MQDZJdmC.IeB4p/2ttLw3Qa/PZQWmpxIAIc8B2bi',
-                'username' => 'admin'//Default password is admin
-            )
-        );
     }
 
 

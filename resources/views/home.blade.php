@@ -15,7 +15,6 @@
                                 <hr>
                             </div>
                         </div>
-                        <?php dd($userGroups); ?>
                         @foreach ($user->groups as $group)
                             <div class="col-md-4">
                                 <p>{{$group->name}}</p>
