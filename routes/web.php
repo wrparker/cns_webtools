@@ -31,8 +31,6 @@ Route::resource('funding-opportunities', 'FundingOpportunityController', ['names
 
 Auth::routes();
 
-Route::get('/createUser', 'Auth\RegisterController@showRegistrationForm');
-
 Route::get('/home', 'HomeController@index');
 
 /* the big to-do list
