@@ -6,6 +6,8 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class RegisterController extends Controller
 {
@@ -79,5 +81,16 @@ class RegisterController extends Controller
     public function username()
     {
         return 'username';
+    }
+
+    public function register(Request $request){
+        $validator = $this->validator($request->all());
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+        $this->create($request->all());
+        return redirect('/');
     }
 }
