@@ -26,6 +26,21 @@ class CreateGroupsTable extends Migration
             )
         );
 
+        DB::table('groups')->insert(
+            array(
+                'id' => '2',
+                'name' => 'Funding Opportunities',
+            )
+        );
+
+        DB::table('groups')->insert(
+            array(
+                'id' => '3',
+                'name' => 'Math PhDs',
+            )
+        );
+
+
 
     }
 

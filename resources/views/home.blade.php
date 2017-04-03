@@ -9,10 +9,19 @@
                     <div class="panel-body">
                         <h2>Welcome, {{Auth::user()->name}}</h2>
                         <?php $user = Auth::user(); ?>
-                        You are a member of:
+                        <div class="row">
+                            <div class="col-md-12">
+                                Click on the following below to acccess the application.
+                                <hr>
+                            </div>
+                        </div>
+                        <?php dd($userGroups); ?>
                         @foreach ($user->groups as $group)
-                            <p>{{$group->name}}</p>
+                            <div class="col-md-4">
+                                <p>{{$group->name}}</p>
+                            </div>
                         @endforeach
+
                 </div>
             </div>
         </div>
