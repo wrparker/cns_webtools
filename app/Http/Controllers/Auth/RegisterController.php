@@ -49,11 +49,17 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+
+
+        Validator::extend('without_spaces', function($attr, $value){
+            return preg_match('/^\S*$/u', $value);
+        }, 'Spaces are not allowed in :attribute.');
+
         return Validator::make($data, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
-            'username' => 'required|min:3|unique:users',
+            'username' => 'required|min:3|unique:users|without_spaces',
         ]);
     }
 
