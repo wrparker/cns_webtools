@@ -97,6 +97,6 @@ class RegisterController extends Controller
             );
         }
         $this->create($request->all());
-        return redirect('/');
+        return redirect(route('users.index'));
     }
 }
