@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -102,31 +103,39 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
 
-        $validRules = [
-            'name' => 'required|max:255',
-        ];
-        if($request->input('email') != $user->email ) {
-            $validRules['email'] ='required|email|max:255|unique:users';
-        }
-
-        if($request->input('password') != null || $request->input('old_password') != null){
-            $validRules['password'] = 'min:6|confirmed';
-        }
-       $this->validate($request, $validRules);
-
-       if(array_key_exists('password', $validRules)){
-           if(Hash::make($request->input('old_password')) == $user->password ){
-               $user->password = Hash::make($request->input('password'));
-           }
-           else{
-               $request->session()->flash('error', 'Bad Old Password ' . $user->name);
+        $currentUser = User::findOrFail(Auth::id());
+        if ($currentUser->id == $user->id || $currentUser->groups->contains(1)) {
+            $validRules = [
+                'name' => 'required|max:255',
+            ];
+            if ($request->input('email') != $user->email) {
+                $validRules['email'] = 'required|email|max:255|unique:users';
             }
-       }
 
-            //$user = $this->request_to_DB_fields($user, $request);
-           // $user->save();
-           $request->session()->flash('status', 'Successfully updated user: ' . $user->name);
-         return redirect(route('users.index'));
+            if ($request->input('password') != null || $request->input('old_password') != null) {
+                $validRules['password'] = 'min:6|confirmed';
+            }
+            $this->validate($request, $validRules);
+
+            //Other stuff
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+
+            if (array_key_exists('password', $validRules)) {
+                if (Hash::make($request->input('old_password')) == $user->password) {
+                    $user->password = Hash::make($request->input('password'));
+                } else {
+                    $request->session()->flash('error', 'Bad Old Password -- Password not updated.' . $user->name);
+                }
+            }
+            $user->save();
+            $request->session()->flash('status', 'Successfully updated user: ' . $user->name);
+            return $currentUser->groups->contains(1) ? redirect(route('users.index')) : redirect('/');
+        }
+        else{
+            $request->session()->flash('error', 'You are not authorized to edit profile: ' . $user->name);
+            return redirect('/');
+        }
     }
 
     /**
