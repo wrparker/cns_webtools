@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    private $currentUser;
 
     public function __construct()
     {
@@ -28,7 +29,7 @@ class UserController extends Controller
         }
         else{
             $request->session()->flash('error', 'You are not authorized to view the User List');
-            return view ('home');
+           return redirect('/');
         }
     }
 
@@ -37,9 +38,16 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('auth.register');
+        $currentUser = User::find(Auth::id());
+        if($currentUser->groups->contains(1)) {
+            return view('auth.register');
+        }
+        else{
+            $request->session()->flash('error', 'You are not authorized to create users');
+            return redirect('/');
+        }
     }
 
     /**
@@ -79,8 +87,8 @@ class UserController extends Controller
             return view('auth.register', compact('user'));
         }
         else{
-            $request->session()->flash('error', 'You are not authorized to edit that profile' . $user->name);
-            return view('home');
+            $request->session()->flash('error', 'You are not authorized to edit profile: ' . $user->name);
+            return redirect('/');
         }
     }
 
@@ -127,8 +135,18 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user, Request $request)
     {
+
+        $currentUser = User::find(Auth::id());
+        if($currentUser->groups->contains(1)) { //userid= 1 is super user
+            //delete user
+            $user->delete();
+        }
+        else{
+            $request->session()->flash('error', 'You are not authorized to delete users');
+            return redirect('/');
+        }
         //
     }
 
