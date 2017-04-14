@@ -19,11 +19,17 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $users = User::orderBy('name')->paginate(25);
-        return view('users.listUsers', compact('users'));
+        $currentUser = User::find(Auth::id());
+        if($currentUser->groups->contains(1)) {
+            $users = User::orderBy('name')->paginate(25);
+            return view('users.listUsers', compact('users'));
+        }
+        else{
+            $request->session()->flash('error', 'You are not authorized to view the User List');
+            return view ('home');
+        }
     }
 
     /**
