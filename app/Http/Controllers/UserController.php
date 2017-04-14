@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $currentUser = User::find(Auth::id());
+        $currentUser = User::findOrFail(Auth::id());
         if($currentUser->groups->contains(1)) {
             $users = User::orderBy('name')->paginate(25);
             return view('users.listUsers', compact('users'));
@@ -40,7 +40,7 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
-        $currentUser = User::find(Auth::id());
+        $currentUser = User::findOrFail(Auth::id());
         if($currentUser->groups->contains(1)) {
             return view('auth.register');
         }
@@ -82,7 +82,7 @@ class UserController extends Controller
     public function edit(User $user, Request $request)
     {
         //
-        $currentUser = User::find(Auth::id());
+        $currentUser = User::findOrFail(Auth::id());
         if($currentUser->id == $user->id || $currentUser->groups->contains(1)){ //userid= 1 is super user
             return view('auth.register', compact('user'));
         }
@@ -138,7 +138,7 @@ class UserController extends Controller
     public function destroy(User $user, Request $request)
     {
 
-        $currentUser = User::find(Auth::id());
+        $currentUser = User::findOrFail(Auth::id());
         if($currentUser->groups->contains(1)) { //userid= 1 is super user
             //delete user
             $user->delete();
