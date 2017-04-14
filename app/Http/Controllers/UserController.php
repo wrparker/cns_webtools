@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -64,10 +65,17 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(User $user, Request $request)
     {
         //
-        return view('auth.register', compact('user'));
+        $currentUser = User::find(Auth::id());
+        if($currentUser->id == $user->id || $currentUser->groups->contains(1)){ //userid= 1 is super user
+            return view('auth.register', compact('user'));
+        }
+        else{
+            $request->session()->flash('error', 'You are not authorized to edit that profile' . $user->name);
+            return view('home');
+        }
     }
 
     /**
