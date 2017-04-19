@@ -17,15 +17,6 @@ class CreateGroupUserTable extends Migration
             $table->integer('user_id');
             $table->integer('group_id');
         });
-
-        //make admin user #1.
-        DB::table('group_user')->insert(
-            array(
-            'user_id' => 1,
-            'group_id' => 1,
-            )
-        );
-
     }
 
     /**

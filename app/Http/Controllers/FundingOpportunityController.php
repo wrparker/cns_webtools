@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class FundingOpportunityController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +31,7 @@ class FundingOpportunityController extends Controller
      */
     public function create()
     {
-        return view('FundingOpportunities.createOpportunity');
+        return view('FundingOpportunities.opportunityEditor');
     }
 
     /**
@@ -37,12 +43,75 @@ class FundingOpportunityController extends Controller
     public function store(Request $request)
     {
         //
+        $fundingOpp = new FundingOpportunity();
+        $fundingOpp = $this->request_to_DB_fields($fundingOpp, $request);
+        $fundingOpp->save();
+        $request->session()->flash('status', 'Successfully created Funding Opportunity: ' .$fundingOpp->name);
+        return redirect(route('FundingOpportunities.index'));
+    }
 
-       /* $this->validate($request, [
-            'fundingType' => 'required|max:255'
-        ]);*/
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $f = FundingOpportunity::findorFail($id);
+        return $f;
+    }
 
-        $fundingOpp = new FundingOpportunity;
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $funding_opp = FundingOpportunity::findOrFail($id);
+        return view('FundingOpportunities.opportunityEditor')->with('fundingOpp', $funding_opp);
+
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $fundingOpp = FundingOpportunity::findorFail($id);
+        $fundingOpp = $this->request_to_DB_fields($fundingOpp, $request);
+        $fundingOpp->save();
+
+
+        $request->session()->flash('status', 'Successfully edited Funding Opportunity: ' .$fundingOpp->name);
+        return redirect(route('FundingOpportunities.index'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $id)
+    {
+
+        $fundingOpp = FundingOpportunity::findorFail($id);
+        $name = $fundingOpp->name;
+        $fundingOpp->delete();
+        $request->session()->flash('status', 'Successfully deleted Funding Opportunity: ' .$name);
+        return redirect(route('FundingOpportunities.index'));
+    }
+
+    private function request_to_DB_fields($fundingOpp, Request $request){
+        $this->request_through_validator($request);
         $fundingOpp->name = $request->input('name');
         $fundingOpp->timestamps;
         $fundingOpp->announced = $request->input('announced');
@@ -55,59 +124,24 @@ class FundingOpportunityController extends Controller
         $fundingOpp->status = $request->input('status');
         $fundingOpp->user = -1;
         $fundingOpp->funding_type = $request->input('funding_type');
-
-
         $fundingOpp->timestamps;
-        $fundingOpp->save();
+        return $fundingOpp;
+    }
 
-        $request->session()->flash('status', 'Successfully created Funding Opportunity: ' .$fundingOpp->name);
-
-        return redirect(route('FundingOpportunities.index'));
+    private function request_through_validator(Request $request){
+        $this->validate($request, [
+            'name' => 'required',
+            'visible' => 'required|boolean',
+            'status' => 'required|boolean',
+            'limited_submission' => 'required|boolean',
+            'announced' => 'required|date_format:m/d/Y',
+            'sponsor_deadline'=> 'required|date_format:m/d/Y',
+            'internal_deadline'=> 'required|date_format:m/d/Y',
+            'internal_deadline'=> 'required|date_format:m/d/Y',
+            'funding_type'=> 'required',  //Uncomment when fixed...
+        ]);
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

@@ -17,16 +17,8 @@ class CreateGroupsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('name');
+            $table->string('route_prefix');
         });
-
-        DB::table('groups')->insert(
-            array(
-                'id' => '1',
-                'name' => 'Super User',
-            )
-        );
-
-
     }
 
     /**

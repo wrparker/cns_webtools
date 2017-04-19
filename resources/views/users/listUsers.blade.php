@@ -6,35 +6,39 @@
 @section('content')
     <div class="container">
         <div class="panel panel-default">
-            <div class="panel-heading">Funding Opportunities</div>
+            <div class="panel-heading">Users</div>
             <div class="container">
-<h1> Funding Opportunities</h1>
-<p>
-    The following are funding types that have been put into the system.  Please note: you cannot delete a funding type
-    that has Funding Opportunities associated with it.
-</p>
+<h1>User Listing</h1>
+<p><a href="{{route('users.create')}}" class="btn btn-success">Add a new user</a></p>
 
-<p><a href="{{route('FundingOpportunities.create')}}" class="btn btn-success">Create a Funding Opportunity</a></p>
-
-    @if(isset($FundingOpportunities))
+    @if(isset($users))
     <table class="table-bordered">
         <thead>
         <tr>
-            <th>Type Name</th>
+            <th>Username</th>
+            <th>E-mail</th>
+            <th>Name</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
         </thead>
-            @foreach($FundingOpportunities as $FundingOpportunity)
+            @foreach($users as $user)
             <tr>
                 <td>
-                    {{$FundingOpportunity->name}}
+                    {{$user->username}}
                 </td>
                 <td>
-                    <a href="{{route('FundingOpportunities.edit', $FundingOpportunity->id)}}" class="btn btn-info">Edit</a>
+                    {{$user->email}}
                 </td>
                 <td>
-                    <form method="post" action="{{route('FundingOpportunities.destroy', $FundingOpportunity->id)}}"
+                    {{$user->name}}
+                </td>
+
+                <td>
+                    <a href="{{route('users.edit', $user->id)}}" class="btn btn-info">Edit</a>
+                </td>
+                <td>
+                    <form method="post" action="{{route('users.destroy', $user->id)}}"
                           onsubmit="return ConfirmDelete()">
                         {{csrf_field()}}
                         <input type="hidden" id="_method" name="_method" value="delete">
@@ -45,7 +49,7 @@
             </tr>
                 @endforeach
     </table>
-    {{ $FundingOpportunities->links()}}
+    {{$users->links()}}
         @else
             <p>There are currently no funding opportunities available.</p>
         @endif

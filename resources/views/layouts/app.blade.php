@@ -67,6 +67,13 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
+
+                                    <li>
+                                        <a href="{{ route('users.edit', Auth::id()) }}">
+                                            Edit Profile
+                                        </a>
+                                    </li>
+
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
@@ -85,6 +92,29 @@
                 </div>
             </div>
         </nav>
+        <div class="container">
+        @if(session('status'))
+            <div class="alert alert-success">
+                {{session('status')}}
+            </div>
+        @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{session('error')}}
+                </div>
+            @endif
+
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        </div>
 
         @yield('content')
     </div>

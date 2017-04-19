@@ -6,6 +6,8 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class RegisterController extends Controller
 {
@@ -36,7 +38,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('auth');
     }
 
     /**
@@ -47,11 +49,17 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+
+
+        Validator::extend('without_spaces', function($attr, $value){
+            return preg_match('/^\S*$/u', $value);
+        }, 'Spaces are not allowed in :attribute.');
+
         return Validator::make($data, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
-            'username' => 'required|min:3|unique:users',
+            'username' => 'required|min:3|unique:users|without_spaces',
         ]);
     }
 
@@ -81,16 +89,14 @@ class RegisterController extends Controller
         return 'username';
     }
 
-    /*disable user registration that is default wiht make:auth in laravel*/
-    public function showRegistrationForm()
-    {
-        return redirect('login');
+    public function register(Request $request){
+        $validator = $this->validator($request->all());
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+        $this->create($request->all());
+        return redirect(route('users.index'));
     }
-
-    public function register()
-    {
-
-    }
-    /*end disable*/
-
 }
