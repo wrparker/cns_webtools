@@ -104,7 +104,7 @@ class UserController extends Controller
     {
 
         $currentUser = User::findOrFail(Auth::id());
-        if ($currentUser->id == $user->id || $currentUser->groups->contains(1)) {
+        if ($currentUser->id == $user->id || $currentUser->isAdmin()) {
             $validRules = [
                 'name' => 'required|max:255',
             ];
@@ -129,8 +129,14 @@ class UserController extends Controller
                 }
             }
             $user->save();
+
+            //Only allow super users to make user group changes.
+            if($currentUser->isAdmin()){
+                $user->groups()->sync($request->input('groups'));
+            }
+
             $request->session()->flash('status', 'Successfully updated user: ' . $user->name);
-            return $currentUser->groups->contains(1) ? redirect(route('users.index')) : redirect('/');
+            return $currentUser->isAdmin() ? redirect(route('users.edit', $user->id)) : redirect('/');
         }
         else{
             $request->session()->flash('error', 'You are not authorized to edit profile: ' . $user->name);
@@ -148,7 +154,7 @@ class UserController extends Controller
     {
 
         $currentUser = User::findOrFail(Auth::id());
-        if($currentUser->groups->contains(1)) { //userid= 1 is super user
+        if($currentUser->isAdmin()) { //userid= 1 is super user
             //delete user
             $user->delete();
         }
@@ -158,11 +164,4 @@ class UserController extends Controller
         }
         //
     }
-
-
-   private function request_through_validator(Request $request){
-
-
-    }
-
 }
