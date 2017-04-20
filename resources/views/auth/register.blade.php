@@ -103,6 +103,33 @@
                             </div>
                         </div>
 
+                        @if (isset($user))
+                            @if(Auth::user()->isAdmin())
+                                <div class="form-group">
+                                    <h3>User Groups</h3>
+                                @forelse(App\Group::all() as $group)
+                                    <div class="checkbox col-md-4">
+                                        <label><input type="checkbox" value="{{$group->id}}" {{isset($user) && $user->groups->contains($group->id) ? "checked" : ""}} name="groups[]">{{$group->name}}</label>
+                                    </div>
+                                 @empty
+                                    <p>There are no user groups!</p>
+                                @endforelse
+                               </div>
+
+                            @else
+                                <h3>You belong to:</h3>
+                            <div class="row">
+                                @forelse($user->groups as $group)
+                                        <div class="col-md-4">{{$group->name}}</div>
+                                @empty
+                                    <p>You do not belong to any groups!</p>
+                                @endforelse
+                            </div><p>&nbsp;</p>
+                                <p class="col-md-12">Do not see right user group or don't have access to a particular application?
+                                    <a href="https://cns.utexas.edu/help">Contact the web team to get access</a>.</p>
+                            @endif
+                        @endif
+
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
