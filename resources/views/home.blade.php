@@ -16,9 +16,11 @@
                         </div>
                             @foreach(Auth::user()->isAdmin() ? App\Group::all() : Auth::user()->groups as $group)
                                     <div class="col-md-4 col-xs-12">
-                                        <div class="col-md-11 btn btn-primary col-xs-12">
-                                            <a href={{route($group->route_prefix.'.index')}} class="appButton"> {{$group->name}}</a>
-                                        </div>
+                                        <a href={{route($group->route_prefix.'.index')}} class="appButton">
+                                            <div class="col-md-11 btn btn-primary col-xs-12">
+                                            {{$group->name}}
+                                            </div>
+                                        </a>
                                     </div>
                             @endforeach
                 </div>
