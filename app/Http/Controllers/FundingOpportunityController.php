@@ -6,16 +6,23 @@ namespace App\Http\Controllers;
 use App\FundingOpportunity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 class FundingOpportunityController extends Controller
 {
 
     public function __construct()
     {
-        //Can't use Auth::user is constructor because middleware isn't started yet.  Have to use this way as of
-        // Laravel 5.3.4 +
+        //If statement below allows public showing of information.
+        //Do not require authentication or user group for @show action.
+        //Will likely need to add some query stuff for show... or something for searching.
+        if(strstr(Route::getCurrentRoute()->getActionName(), '@', false) !== "@show"){
         $this->middleware(function ($request, $next) {
-            if(!Auth::user()->groups->contains(APP_FUNDINGOPPORTUNITIES)){
+            if(Auth::user() === null){  //prevents a null exception.
+                return redirect ('/');
+            }
+            else if(!Auth::user()->groups->contains(APP_FUNDINGOPPORTUNITIES)
+                    && !Auth::user()->groups->contains(APP_SUPERUSER) ){
                 $request->session()->flash('error', 'You are not authorized to the funding opportunities application.');
                 return redirect('/');
             }
@@ -23,6 +30,7 @@ class FundingOpportunityController extends Controller
                 return $next($request);
             }
         });
+        }
 
 
 
