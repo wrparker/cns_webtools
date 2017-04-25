@@ -19,3 +19,8 @@
     background-color:#bf5600;
     color: #ffffff;
 }
+
+a.appButton{
+    color:white !important;
+    padding:10px;
+}

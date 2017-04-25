@@ -12,6 +12,17 @@
 |
 */
 
+
+//Global Constants -- Use this for readability and ensure it matches the "Groups" database.
+Route::group(['prefix' => ''], function() {
+    //Application IDs in Groups DB
+    define('APP_SUPERUSER','1');
+    define('APP_FUNDINGOPPORTUNITIES','2');
+    define('APP_MATHPHD','3');
+    //end Application IDs
+});
+
+
 Route::get('/', function () {
      return view('home');
 })->middleware('auth');

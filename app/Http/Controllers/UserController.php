@@ -24,7 +24,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $currentUser = User::findOrFail(Auth::id());
-        if($currentUser->groups->contains(1)) {
+        if($currentUser->isAdmin()) {
             $users = User::orderBy('name')->paginate(25);
             return view('users.listUsers', compact('users'));
         }
@@ -42,7 +42,7 @@ class UserController extends Controller
     public function create(Request $request)
     {
         $currentUser = User::findOrFail(Auth::id());
-        if($currentUser->groups->contains(1)) {
+        if($currentUser->isAdmin()) {
             return view('auth.register');
         }
         else{
@@ -84,7 +84,7 @@ class UserController extends Controller
     {
         //
         $currentUser = User::findOrFail(Auth::id());
-        if($currentUser->id == $user->id || $currentUser->groups->contains(1)){ //userid= 1 is super user
+        if($currentUser->id == $user->id || $currentUser->isAdmin()){ //userid= 1 is super user
             return view('auth.register', compact('user'));
         }
         else{
@@ -132,7 +132,12 @@ class UserController extends Controller
 
             //Only allow super users to make user group changes.
             if($currentUser->isAdmin()){
-                $user->groups()->sync($request->input('groups'));
+                if($request->input('groups') === null){  //Detach it all if there is nothing there.
+                    $user->groups()->detach();
+                }
+                else{
+                    $user->groups()->sync($request->input('groups'));
+                }
             }
 
             $request->session()->flash('status', 'Successfully updated user: ' . $user->name);
