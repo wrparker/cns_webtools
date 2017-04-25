@@ -43,6 +43,7 @@ class FundingOpportunityController extends Controller
      */
     public function index()
     {
+        //TODO: Add a check here to see if you're logged in trying to look at thigns vs just grabbing stuff.
         $FundingOpportunities = FundingOpportunity::orderBy('id', 'desc')->paginate(10);
         return view('FundingOpportunities.listOpportunity', compact('FundingOpportunities'));
     }
