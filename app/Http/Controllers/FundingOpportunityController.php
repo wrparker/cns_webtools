@@ -2,15 +2,30 @@
 
 namespace App\Http\Controllers;
 
+
 use App\FundingOpportunity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FundingOpportunityController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth');
+        //Can't use Auth::user is constructor because middleware isn't started yet.  Have to use this way as of
+        // Laravel 5.3.4 +
+        $this->middleware(function ($request, $next) {
+            if(!Auth::user()->groups->contains(APP_FUNDINGOPPORTUNITIES)){
+                $request->session()->flash('error', 'You are not authorized to the funding opportunities application.');
+                return redirect('/');
+            }
+            else{
+                return $next($request);
+            }
+        });
+
+
+
     }
 
     /**

@@ -14,10 +14,10 @@ class CreateGroupsTable extends Migration
     public function up()
     {
         Schema::create('groups', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->unique();
             $table->timestamps();
-            $table->string('name');
-            $table->string('route_prefix');
+            $table->string('name')->unique();
+            $table->string('route_prefix')->unique();
         });
     }
 

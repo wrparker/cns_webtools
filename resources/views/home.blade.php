@@ -8,19 +8,19 @@
                 <div class="panel-heading">Dashboard</div>
                     <div class="panel-body">
                         <h2>Welcome, {{Auth::user()->name}}</h2>
-                        <?php $user = Auth::user(); ?>
                         <div class="row">
                             <div class="col-md-12">
-                                Click on the following below to acccess the application.
+                                Click on a button below to access the application.
                                 <hr>
                             </div>
                         </div>
-                        @foreach ($user->groups as $group)
-                            <div class="col-md-4">
-                                <p>{{$group->name}}</p>
-                            </div>
-                        @endforeach
-
+                            @foreach(Auth::user()->isAdmin() ? App\Group::all() : Auth::user()->groups as $group)
+                                    <div class="col-md-4 col-xs-12">
+                                        <div class="col-md-11 btn btn-primary col-xs-12">
+                                            <a href={{route($group->route_prefix.'.index')}} class="appButton"> {{$group->name}}</a>
+                                        </div>
+                                    </div>
+                            @endforeach
                 </div>
             </div>
         </div>

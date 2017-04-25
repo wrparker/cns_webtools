@@ -15,9 +15,9 @@ class AddInitialData extends Migration
     {
         //Create first three tables.
             $data = array(
-                array('id' => '1', 'name' => 'Super User', 'route_prefix' => '' ),
+                array('id' => '1', 'name' => 'Super User', 'route_prefix' => 'users' ),
                 array('id' => '2', 'name' => 'Funding Opportunities', 'route_prefix'=>'FundingOpportunities'),
-                array('id' => '3', 'name' => 'Math PhDs', 'route_prefix'=> ''),
+                array('id' => '3', 'name' => 'Math PhDs', 'route_prefix'=> 'FundingOpportunities'),  //place holder.
             );
             DB::table('groups')->insert($data);
 
