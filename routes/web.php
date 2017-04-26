@@ -15,6 +15,8 @@
 
 //Global Constants -- Use this for readability and ensure it matches the "Groups" database.
 Route::group(['prefix' => ''], function() {
+    //Authentication
+    define('AUTH_LDAP_ENABLED',true);
     //Application IDs in Groups DB
     define('APP_SUPERUSER','1');
     define('APP_FUNDINGOPPORTUNITIES','2');
