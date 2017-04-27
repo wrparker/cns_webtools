@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->boolean('enabled')->default(false);
-            $table->boolean('ldap_user')->default(false);
+            $table->boolean('ldap_user')->default(true);
         });
     }
 
