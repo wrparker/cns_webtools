@@ -66,7 +66,7 @@ class LoginController extends Controller
             return redirect::route('login')->withInput();
         }
 
-        else if($local_lookup->enabled == false){
+        else if($local_lookup[0]->enabled == false){
             $request->session()->flash('error', Lang::get('auth.disabled'));
             return redirect::route('login')->withInput();
         }
@@ -78,7 +78,7 @@ class LoginController extends Controller
         }
 
         //#2 Lets see if LDAP is enabled.  Controlled with globals in web.php
-       else if(AUTH_LDAP_ENABLED === true && $local_lookup->ldap_user === true){
+       else if(AUTH_LDAP_ENABLED === true && $local_lookup[0]->ldap_user === true){
             //#2.1 before we auth with ldap, lets make sure that ldap_connect is a function we can actually call!
            if(function_exists('ldap_connect') === false){
                 $request->session()->flash('error', Lang::get('auth.ldap_fail'));
