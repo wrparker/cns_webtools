@@ -24,3 +24,11 @@ a div.appButton{
     color:white !important;
     padding:10px;
 }
+
+td, th{
+    padding:10px;
+    margin: 0 auto;
+}
+table{
+    margin-bottom:10px;
+}

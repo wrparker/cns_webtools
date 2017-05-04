@@ -9,7 +9,8 @@
             <div class="panel-heading">Users</div>
             <div class="container">
 <h1>User Listing</h1>
-<p><a href="{{route('users.create')}}" class="btn btn-success">Add a new user</a></p>
+<p><a href="{{route('users.create')}}" class="btn btn-success">Add User</a></p>
+
 
     @if(isset($users))
     <table class="table-bordered">
@@ -18,6 +19,7 @@
             <th>Username</th>
             <th>E-mail</th>
             <th>Name</th>
+            <th>LDAP User?</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -33,6 +35,9 @@
                 <td>
                     {{$user->name}}
                 </td>
+                <td>
+                    {{$user->ldap_enabled ? 'LDAP' : 'LOCAL'}}
+                </td>
 
                 <td>
                     <a href="{{route('users.edit', $user->id)}}" class="btn btn-info">Edit</a>
@@ -42,7 +47,7 @@
                           onsubmit="return ConfirmDelete()">
                         {{csrf_field()}}
                         <input type="hidden" id="_method" name="_method" value="delete">
-                        <button type="submit" class="btn btn-danger" style="margin-top:15px">Delete</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
 
                 </td>

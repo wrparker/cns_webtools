@@ -34,6 +34,9 @@ class UserController extends Controller
         }
     }
 
+
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -104,7 +107,7 @@ class UserController extends Controller
     {
 
         $currentUser = User::findOrFail(Auth::id());
-        if ($currentUser->id == $user->id || $currentUser->isAdmin()) {
+        if ($currentUser->id == $user->id || $currentUser->isAdmin() && $user->ldap_enabled === false) {
             $validRules = [
                 'name' => 'required|max:255',
             ];
@@ -143,6 +146,9 @@ class UserController extends Controller
             $request->session()->flash('status', 'Successfully updated user: ' . $user->name);
             return $currentUser->isAdmin() ? redirect(route('users.edit', $user->id)) : redirect('/');
         }
+        else if ($user->ldap_enabled){
+            echo "ROUTINE TO UPDATE LDAP USER HERE.";
+        }
         else{
             $request->session()->flash('error', 'You are not authorized to edit profile: ' . $user->name);
             return redirect('/');
@@ -169,4 +175,5 @@ class UserController extends Controller
         }
         //
     }
+
 }

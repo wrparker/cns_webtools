@@ -49,7 +49,7 @@ Route::resource('users', 'UserController', ['names' => [
     'show' => 'Users.show',
     'edit' => 'Users.edit',
     'update' => 'Users.update',
-    'destroy' => 'Users.destroy'
+    'destroy' => 'Users.destroy',
 ]]);
 
 

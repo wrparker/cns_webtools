@@ -20,6 +20,7 @@
 
                         @if(isset($user))
                             <h2>User: {{$user->username}}</h2>
+                            <h3> Status: {{$user->ldap_enabled ? 'LDAP USER' : 'Local Account'}}</h3>
                         @else
                         <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
                             <label for="username" class="col-md-4 control-label">User Name</label>
@@ -34,6 +35,18 @@
                                 @endif
                             </div>
                         </div>
+                            <div class="form-group{{ $errors->has('ldap_enabled') ? ' has-error' : '' }}">
+                                <label for="ldap_enabled" class="col-md-4 control-label">LDAP/EID Authenticated User?</label>
+                                <div class="col-md-6">
+                                    <input id="ldap_enabled" name="ldap_enabled" type="checkbox" checked>
+                                    <span class="help-block">If LDAP user you only need to put in an EID on this form under 'User Name'.  Leave rest blank (except for enabled if you want to enable the account).</span>
+                                    @if ($errors->has('ldap_enabled'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('ldap_enabled') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
                         @endif
 
 
@@ -51,6 +64,8 @@
                                 @endif
                             </div>
                         </div>
+
+
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
@@ -102,6 +117,25 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" {{isset($user) ? '' :'required' }}>
                             </div>
                         </div>
+
+                        @if(Auth::user()->isAdmin())
+                        <div class="form-group{{ $errors->has('enabled') ? ' has-error' : '' }}">
+                            <label for="enabled" class="col-md-4 control-label">Enabled?</label>
+                            <div class="col-md-6">
+                                <input id="enabled" name="enabled" type="checkbox" {{isset($user) && $user->enabled ? 'checked': '' }} >
+                                <span class="help-block">Disabled users cannot log in.</span>
+                                @if ($errors->has('enabled'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('enabled') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        @else
+                            <div class="col-md-4">User Status</div><div class="col-md-6">{{$user->enabled}}</div>
+                        @endif
+
+
 
                         @if (isset($user))
                             @if(Auth::user()->isAdmin())
