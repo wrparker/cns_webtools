@@ -107,26 +107,9 @@
     </div>
     </div>
     </div>
-    <script type="text/javascript">
-        $( document ).ready(function() {
-            $('button[type=submit]').click(function() {
-                $(this).attr('disabled', 'disabled');
-                $(this).text("Sending...");
-                $(this).parents('form').submit()
-            });
+@endsection
 
-            $('.colorchanger').change(function() {
-               var state =$(this).val();
-               if(state == "0"){
-                   $(this).css('background-color', 'orangered');
-               }
-               else{
-                   $(this).css('background-color', 'greenyellow');
-               }
-            });
-
-
-        });
-    </script>
+@section('javascript')
+    <script type="text/javascript" src="{{ asset('js/funding-opportunities.js') }}"></script>
 @endsection
 

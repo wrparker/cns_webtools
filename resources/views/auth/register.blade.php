@@ -35,6 +35,7 @@
                                 @endif
                             </div>
                         </div>
+                        @if(AUTH_LDAP_ENABLED)
                             <div class="form-group{{ $errors->has('ldap_enabled') ? ' has-error' : '' }}">
                                 <label for="ldap_enabled" class="col-md-4 control-label">LDAP/EID Authenticated User?</label>
                                 <div class="col-md-6">
@@ -47,6 +48,7 @@
                                     @endif
                                 </div>
                             </div>
+                            @endif
                         @endif
 
 
@@ -100,7 +102,7 @@
                             <label for="password" class="col-md-4 control-label">{{isset($user) ? 'New Password' :'Password' }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" {{isset($user) ? '' :'required' }}>
+                                <input id="password" type="password" class="form-control" name="password" >
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">
@@ -186,6 +188,8 @@
 @endsection
 
 @section('javascript')
-    <script src="{{ asset('js/register-user.js') }}"></script>
+    @if(!isset($user))
+        <script type="text/javascript" src="{{ asset('js/register-user.js') }}"></script>
+    @endif
 @endsection
 

@@ -61,48 +61,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //validate request
-        dd($request->input('ldap_enabled'));
 
-        if($request->input('ldap_enabled') === true){
-            dd($request->input('ldap_enabled'));
-        }
-        $this->validate($request, [
-            'name' => 'required',
-            'visible' => 'required|boolean',
-            'status' => 'required|boolean',
-            'limited_submission' => 'required|boolean',
-            'announced' => 'required|date_format:m/d/Y',
-            'sponsor_deadline'=> 'required|date_format:m/d/Y',
-            'internal_deadline'=> 'required|date_format:m/d/Y',
-            'internal_deadline'=> 'required|date_format:m/d/Y',
-            'funding_type'=> 'required',  //Uncomment when fixed...
-        ]);
-
-
-
-        $user = new User();
-
-        //populate
-        /* $fundingOpp->name = $request->input('name');
-         $fundingOpp->timestamps;
-         $fundingOpp->announced = $request->input('announced');
-         $fundingOpp->sponsor_deadline = $request->input('sponsor_deadline');
-         $fundingOpp->internal_deadline = $request->input('internal_deadline');
-         $fundingOpp->link_internal = $request->input('link_internal');
-         $fundingOpp->link_external = $request->input('link_external');
-         $fundingOpp->visible = $request->input('visible');
-         $fundingOpp->limited_submission = $request->input('limited_submission');
-         $fundingOpp->status = $request->input('status');
-         $fundingOpp->user = -1;
-         $fundingOpp->funding_type = $request->input('funding_type');
-         $fundingOpp->timestamps;
-        */
-        //save.
-
-        $user->save();
-        $request->session()->flash('status', 'Successfully created user ' .$user->username);
-        return redirect(route('FundingOpportunities.index'));
+        //
     }
 
     /**
@@ -147,7 +107,7 @@ class UserController extends Controller
     {
 
         $currentUser = User::findOrFail(Auth::id());
-        if ($currentUser->id == $user->id || $currentUser->isAdmin() && $user->ldap_enabled === false) {
+        if ($currentUser->id == $user->id || $currentUser->isAdmin() && $user->ldap_user == false) {
             $validRules = [
                 'name' => 'required|max:255',
             ];
@@ -175,6 +135,7 @@ class UserController extends Controller
 
             //Only allow super users to make user group changes.
             if($currentUser->isAdmin()){
+                $user->enabled = ($request->input('enabled') === null ? false : true);
                 if($request->input('groups') === null){  //Detach it all if there is nothing there.
                     $user->groups()->detach();
                 }
@@ -186,8 +147,18 @@ class UserController extends Controller
             $request->session()->flash('status', 'Successfully updated user: ' . $user->name);
             return $currentUser->isAdmin() ? redirect(route('users.edit', $user->id)) : redirect('/');
         }
-        else if ($user->ldap_enabled){
-            echo "ROUTINE TO UPDATE LDAP USER HERE.";
+        else if ($user->ldap_user && $currentUser->isAdmin()){ //LDAP users can only have their user-groups updated.
+            $user->enabled = ($request->input('enabled') === null ? false : true);
+            $user->save();
+
+            if($request->input('groups') === null){  //Detach it all if there is nothing there.
+                $user->groups()->detach();
+            }
+            else{
+                $user->groups()->sync($request->input('groups'));
+            }
+            $request->session()->flash('status', 'Successfully LDAP user: ' . $user->name);
+            return $currentUser->isAdmin() ? redirect(route('users.edit', $user->id)) : redirect('/');
         }
         else{
             $request->session()->flash('error', 'You are not authorized to edit profile: ' . $user->name);

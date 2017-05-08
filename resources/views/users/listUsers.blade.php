@@ -36,7 +36,7 @@
                     {{$user->name}}
                 </td>
                 <td>
-                    {{$user->ldap_enabled ? 'LDAP' : 'LOCAL'}}
+                    {{$user->ldap_user ? 'LDAP' : 'LOCAL'}}
                 </td>
 
                 <td>
