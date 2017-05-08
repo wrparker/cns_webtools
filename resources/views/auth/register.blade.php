@@ -184,3 +184,8 @@
 </div>
 
 @endsection
+
+@section('javascript')
+    <script src="{{ asset('js/register-user.js') }}"></script>
+@endsection
+

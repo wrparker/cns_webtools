@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    private $currentUser;
 
     public function __construct()
     {
@@ -62,7 +61,48 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validate request
+        dd($request->input('ldap_enabled'));
+
+        if($request->input('ldap_enabled') === true){
+            dd($request->input('ldap_enabled'));
+        }
+        $this->validate($request, [
+            'name' => 'required',
+            'visible' => 'required|boolean',
+            'status' => 'required|boolean',
+            'limited_submission' => 'required|boolean',
+            'announced' => 'required|date_format:m/d/Y',
+            'sponsor_deadline'=> 'required|date_format:m/d/Y',
+            'internal_deadline'=> 'required|date_format:m/d/Y',
+            'internal_deadline'=> 'required|date_format:m/d/Y',
+            'funding_type'=> 'required',  //Uncomment when fixed...
+        ]);
+
+
+
+        $user = new User();
+
+        //populate
+        /* $fundingOpp->name = $request->input('name');
+         $fundingOpp->timestamps;
+         $fundingOpp->announced = $request->input('announced');
+         $fundingOpp->sponsor_deadline = $request->input('sponsor_deadline');
+         $fundingOpp->internal_deadline = $request->input('internal_deadline');
+         $fundingOpp->link_internal = $request->input('link_internal');
+         $fundingOpp->link_external = $request->input('link_external');
+         $fundingOpp->visible = $request->input('visible');
+         $fundingOpp->limited_submission = $request->input('limited_submission');
+         $fundingOpp->status = $request->input('status');
+         $fundingOpp->user = -1;
+         $fundingOpp->funding_type = $request->input('funding_type');
+         $fundingOpp->timestamps;
+        */
+        //save.
+
+        $user->save();
+        $request->session()->flash('status', 'Successfully created user ' .$user->username);
+        return redirect(route('FundingOpportunities.index'));
     }
 
     /**
