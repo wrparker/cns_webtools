@@ -105,7 +105,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-
+    //this really needs refactoring.
         $currentUser = User::findOrFail(Auth::id());
         if ($currentUser->id == $user->id || $currentUser->isAdmin() && $user->ldap_user == false) {
             $validRules = [
