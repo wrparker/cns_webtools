@@ -16,7 +16,7 @@ class FundingOpportunityController extends Controller
         //If statement below allows public showing of information.
         //Do not require authentication or user group for @show action.
         //Will likely need to add some query stuff for show... or something for searching.
-        if(strstr(Route::getCurrentRoute()->getActionName(), '@', false) !== "@show"){
+        if(Route::getcurrentRoute() !== null && strstr(Route::getCurrentRoute()->getActionName(), '@', false) !== "@show"){
         $this->middleware(function ($request, $next) {
             if(Auth::user() === null){  //prevents a null exception.
                 return redirect ('/');
