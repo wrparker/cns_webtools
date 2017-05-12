@@ -88,7 +88,7 @@ class LoginController extends Controller
             }
             //2.2: See if the EID is in the system before trying to authenticate....
            else if (LDAP_authenticator::LDAPAuthenticateEIDPassword(trim($request->input('username')), $request->input('password'))) {
-                   $request->session()->flash('WELCOME BACK WOOHOO');
+                   $request->session()->flash('Login Successful.  Welcome!');
                    return redirect()->intended($this->redirectTo);
                }
                else {
