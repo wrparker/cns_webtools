@@ -151,7 +151,6 @@
                                     <p>There are no user groups!</p>
                                 @endforelse
                                </div>
-
                             @else
                                 <h3>You belong to:</h3>
                             <div class="row">
@@ -174,11 +173,19 @@
                                     @else
                                         Register User
                                     @endif
-
                                 </button>
                             </div>
                         </div>
                     </form>
+
+                        @if(isset($user) && Auth::user()->isAdmin())
+                         <form method="post" action="{{route('users.destroy', $user->id)}}"
+                            onsubmit="return ConfirmDelete()">
+                             {{csrf_field()}}
+                             <input type="hidden" id="_method" name="_method" value="delete">
+                             <button type="submit" class="btn btn-danger">Delete User</button>
+                         </form>
+                         @endif
                 </div>
             </div>
         </div>

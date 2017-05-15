@@ -32,3 +32,10 @@ td, th{
 table{
     margin-bottom:10px;
 }
+
+a.list{
+    text-decoration: underline;
+}
+a.list:hover{
+    color:orange;
+}

@@ -23,13 +23,22 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $currentUser = User::findOrFail(Auth::id());
+        $search =$request->input('search');
         if($currentUser->isAdmin()) {
-            $users = User::orderBy('name')->paginate(25);
-            return view('users.listUsers', compact('users'));
+            if($search !== null){
+                $users = User::where('username', 'LIKE', '%'.$request->input('search').'%')->orderby('name')->paginate(25);
+                return view('users.listUsers', compact('users', 'search'));
+            }
+            else{
+
+                $users = User::orderBy('name')->paginate(25);
+                return view('users.listUsers', compact('users'));
+            }
+
         }
         else{
             $request->session()->flash('error', 'You are not authorized to view the User List');
-           return redirect('/');
+            return redirect('/');
         }
     }
 
@@ -87,7 +96,7 @@ class UserController extends Controller
     {
         //
         $currentUser = User::findOrFail(Auth::id());
-        if($currentUser->id == $user->id || $currentUser->isAdmin()){ //userid= 1 is super user
+        if($currentUser->id == $user->id || $currentUser->isAdmin()){ //usergrp= 1 is super user
             return view('auth.register', compact('user'));
         }
         else{
@@ -176,9 +185,10 @@ class UserController extends Controller
     {
 
         $currentUser = User::findOrFail(Auth::id());
-        if($currentUser->isAdmin()) { //userid= 1 is super user
+        if($currentUser->isAdmin() && $user->id !== $currentUser->id) { //userid= 1 is super user, dont let delete self.
             //delete user
             $user->delete();
+            return redirect(route('users.index'));
         }
         else{
             $request->session()->flash('error', 'You are not authorized to delete users');

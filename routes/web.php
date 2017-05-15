@@ -41,19 +41,8 @@ Route::resource('funding-opportunities', 'FundingOpportunityController', ['names
         'destroy' => 'FundingOpportunities.destroy'
 ]]);
 
-#Use CRUD URLs
-Route::resource('users', 'UserController', ['names' => [
-    'index' => 'Users.index',
-    'create' => 'Users.create',
-    'store' => 'Users.store',
-    'show' => 'Users.show',
-    'edit' => 'Users.edit',
-    'update' => 'Users.update',
-    'destroy' => 'Users.destroy',
-]]);
-
-
 Route::resource('users', 'UserController');
+Route::post('/users', 'UserController@index'); #extra route needed.
 
 
 Auth::routes();

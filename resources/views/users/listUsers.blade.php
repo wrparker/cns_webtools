@@ -4,12 +4,19 @@
 
 
 @section('content')
-    <div class="container">
+s    <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">Users</div>
             <div class="container">
 <h1>User Listing</h1>
 <p><a href="{{route('users.create')}}" class="btn btn-success">Add User</a></p>
+
+<form method="POST" action="{{route('users.index')}}">
+    {{csrf_field()}}
+    <input type="text" id="search" name="search" placeholder="Search by username/EID"
+           @if(isset($search)) value="{{$search}}" @endif  >
+    <button type="submit" class="btn search">Go</button>
+</form>
 
 
     @if(isset($users))
@@ -20,14 +27,12 @@
             <th>E-mail</th>
             <th>Name</th>
             <th>LDAP User?</th>
-            <th>Edit</th>
-            <th>Delete</th>
         </tr>
         </thead>
             @foreach($users as $user)
             <tr>
                 <td>
-                    {{$user->username}}
+                    <a href="{{route('users.edit', $user->id)}}" class="list">  {{$user->username}}</a>
                 </td>
                 <td>
                     {{$user->email}}
@@ -38,40 +43,13 @@
                 <td>
                     {{$user->ldap_user ? 'LDAP' : 'LOCAL'}}
                 </td>
-
-                <td>
-                    <a href="{{route('users.edit', $user->id)}}" class="btn btn-info">Edit</a>
-                </td>
-                <td>
-                    <form method="post" action="{{route('users.destroy', $user->id)}}"
-                          onsubmit="return ConfirmDelete()">
-                        {{csrf_field()}}
-                        <input type="hidden" id="_method" name="_method" value="delete">
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-
-                </td>
             </tr>
                 @endforeach
     </table>
     {{$users->links()}}
         @else
-            <p>There are currently no funding opportunities available.</p>
+            <p>There are currently no users available.</p>
         @endif
         </div></div></div></div>
-
-<script>
-
-    function ConfirmDelete()
-    {
-        var x = confirm("Are you sure you want to delete this record?");
-        if (x)
-            return true;
-        else
-            return false;
-    }
-
-</script>
-
 @endsection
 
