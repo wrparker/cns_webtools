@@ -183,7 +183,7 @@
                             onsubmit="return ConfirmDelete()">
                              {{csrf_field()}}
                              <input type="hidden" id="_method" name="_method" value="delete">
-                             <button type="submit" class="btn btn-danger">Delete User</button>
+                             <button type="submit" class="btn btn-danger delete">Delete User</button>
                          </form>
                          @endif
                 </div>

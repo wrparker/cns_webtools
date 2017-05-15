@@ -41,11 +41,18 @@ class FundingOpportunityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //TODO: Add a check here to see if you're logged in trying to look at thigns vs just grabbing stuff.
-        $FundingOpportunities = FundingOpportunity::orderBy('id', 'desc')->paginate(10);
-        return view('FundingOpportunities.listOpportunity', compact('FundingOpportunities'));
+        $search =$request->input('search');
+        if(isset($search)){
+            $FundingOpportunities = FundingOpportunity::where('name', 'LIKE', '%'.$request->input('search').'%')
+                ->orderBy('id', 'desc')->paginate(25);
+            return view('FundingOpportunities.listOpportunity', compact('FundingOpportunities', 'search'));
+        }
+        else {
+            $FundingOpportunities = FundingOpportunity::orderBy('id', 'desc')->paginate(25);
+            return view('FundingOpportunities.listOpportunity', compact('FundingOpportunities'));
+        }
     }
 
     /**
@@ -140,13 +147,17 @@ class FundingOpportunityController extends Controller
         $fundingOpp->timestamps;
         $fundingOpp->announced = $request->input('announced');
         $fundingOpp->sponsor_deadline = $request->input('sponsor_deadline');
+
+        $fundingOpp->link_internal = ($request->input('link_internal') == null) ?  '' : $request->input('link_internal');
+        $fundingOpp->link_external =  ($request->input('link_external') == null) ? '' : $request->input('link_external');
+
+
         $fundingOpp->internal_deadline = $request->input('internal_deadline');
-        $fundingOpp->link_internal = $request->input('link_internal');
-        $fundingOpp->link_external = $request->input('link_external');
+        //$fundingOpp->link_internal = $request->input('link_internal');
+        //$fundingOpp->link_external = $request->input('link_external');
         $fundingOpp->visible = $request->input('visible');
         $fundingOpp->limited_submission = $request->input('limited_submission');
         $fundingOpp->status = $request->input('status');
-        $fundingOpp->user = -1;
         $fundingOpp->funding_type = $request->input('funding_type');
         $fundingOpp->timestamps;
         return $fundingOpp;

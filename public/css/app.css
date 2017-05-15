@@ -39,3 +39,12 @@ a.list{
 a.list:hover{
     color:orange;
 }
+
+input#search{
+    margin-bottom:10px;
+}
+
+button.delete{
+    margin-top:10px !important;
+    float:right;
+}

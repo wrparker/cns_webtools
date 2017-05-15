@@ -104,6 +104,14 @@
                     <a href="{{route('FundingOpportunities.index')}}" class="btn btn-primary" id="createSubmitButton">Cancel</a>
 
     </form>
+                        @if(isset($fundingOpp))
+                         <form method="post" action="{{route('FundingOpportunities.destroy', $fundingOpp->id)}}"
+                                  onsubmit="return ConfirmDelete()">
+                                {{csrf_field()}}
+                                <input type="hidden" id="_method" name="_method" value="delete">
+                                <button type="submit" class="btn btn-danger delete">Delete Opportunity</button>
+                            </form>
+                        @endif
     </div>
     </div>
     </div>

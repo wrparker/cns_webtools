@@ -12,7 +12,6 @@ s    <div class="container">
 <p><a href="{{route('users.create')}}" class="btn btn-success">Add User</a></p>
 
 <form method="POST" action="{{route('users.index')}}">
-    {{csrf_field()}}
     <input type="text" id="search" name="search" placeholder="Search by username/EID"
            @if(isset($search)) value="{{$search}}" @endif  >
     <button type="submit" class="btn search">Go</button>
