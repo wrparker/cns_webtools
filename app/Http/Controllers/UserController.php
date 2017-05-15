@@ -144,20 +144,31 @@ class UserController extends Controller
 
             //Only allow super users to make user group changes.
             if($currentUser->isAdmin()){
-                $user->enabled = ($request->input('enabled') === null ? false : true);
+                if($currentUser->id === $user->id && $request->input('enabled') === null) {
+                    $request->session()->flash('error', 'You cannot disable yourself.' . $user->name);
+                }
+                else{
+                    $user->enabled = ($request->input('enabled') === null ? false : true);
+                }
                 if($request->input('groups') === null){  //Detach it all if there is nothing there.
                     $user->groups()->detach();
                 }
                 else{
                     $user->groups()->sync($request->input('groups'));
                 }
+
             }
 
             $request->session()->flash('status', 'Successfully updated user: ' . $user->name);
             return $currentUser->isAdmin() ? redirect(route('users.edit', $user->id)) : redirect('/');
         }
         else if ($user->ldap_user && $currentUser->isAdmin()){ //LDAP users can only have their user-groups updated.
-            $user->enabled = ($request->input('enabled') === null ? false : true);
+            if($currentUser->id === $user->id) {
+                $request->session()->flash('error', 'You cannot disable yourself.' . $user->name);
+            }
+            else {
+                $user->enabled = ($request->input('enabled') === null ? false : true);
+            }
             $user->save();
 
             if($request->input('groups') === null){  //Detach it all if there is nothing there.

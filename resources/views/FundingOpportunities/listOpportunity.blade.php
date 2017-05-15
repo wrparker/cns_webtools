@@ -25,7 +25,8 @@
     <table class="table-bordered">
         <thead>
         <tr>
-            <th>Type Name</th>
+            <th>Opportunity Name</th>
+            <th>Type</th>
             <th>Visibility</th>
             <th>Created:</th>
             <th>Updated:</th>
@@ -37,7 +38,10 @@
                     <a href="{{route('FundingOpportunities.edit', $FundingOpportunity->id)}}" class="list"> {{$FundingOpportunity->name}}</a>
                 </td>
                 <td>
-                  {{$FundingOpportunity->visibility}}
+                    {{$FundingOpportunity->funding_type}}
+                </td>
+                <td>
+                  {{$FundingOpportunity->visible ? 'Visible' : 'Hidden'}}
                 </td>
                 <td>
                     {{$FundingOpportunity->created_at}}
