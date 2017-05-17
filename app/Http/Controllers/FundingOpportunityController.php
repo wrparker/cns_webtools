@@ -62,6 +62,27 @@ class FundingOpportunityController extends Controller
      */
     public function publicIndex(Request $request)
     {
+        //Build Append Array.
+        if(sizeof($request->query() == 0)){
+            return FundingOpportunity::orderBy('name')->get();
+        }
+        else{
+            $appendArray = array();
+            if(isset($request->query()["orderBy"])) {
+                $appendArray += ['orderBy' => $request->query()["orderBy"]];
+            }
+
+            if(isset($request->query()["searchName"])) {
+                $appendArray += ['searchName' => $request->query()["searchName"]];
+            }
+
+            //Items is always last.  It tells us to start pagination.
+            if(isset($request->query()["items"])) {
+                $appendArray += ['items' => $request->query()['items']];
+            }
+        }
+
+        //GET Query Parameter "searchName"
         if(isset($request->query()["searchName"])){
         $FundingOpportunities = FundingOpportunity::where('name', 'LIKE', '%'.$request->query()["searchName"].'%')
             ->orderby('name');

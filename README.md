@@ -23,6 +23,7 @@ CNS Webtools is written in Laravel v5.4 and was created and primarily authored b
 ## To-Do
 This is where a list of To-Do Items will be stored throughout this process.
 1. Public API for accessing fundingopportunities.
+- Finish publicIndex in FundingOpportunitiesController
 2. Math PhD Students
 3. Refactor RegisterController--a lot of redundant code
 4. Create "Template" app.
