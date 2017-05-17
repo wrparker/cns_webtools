@@ -1,10 +1,7 @@
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
+<img src="https://cns.utexas.edu/templates/CNS_3/images/cns_header_Natural_Sciences.png">
 </p>
 
 ## CNS Webtools
@@ -15,7 +12,7 @@ and centralizing all smaller stand-alone web applications into a central locatio
 CNS Webtools is written in Laravel v5.4 and was created and primarily authored by 
 [W. Ryan Parker](https://wrparker.me) from the CNS-OIT Web Team.  
 
-##Currently Housed Applications
+## Currently Housed Applications
 - Strategic Research Initiatives (Funding Opportunities)
 - Math PhD Graduate Database
 
@@ -24,7 +21,11 @@ CNS Webtools is written in Laravel v5.4 and was created and primarily authored b
 - CNS Webtools is also licensed under the [MIT license](http://opensource.org/licenses/MIT).
 
 ## To-Do
+This is where a list of To-Do Items will be stored throughout this process.
 1. Public API for accessing fundingopportunities.
 2. Math PhD Students
 3. Refactor RegisterController--a lot of redundant code
 4. Create "Template" app.
+
+## Changelog
+Future changelog will go here once application hits production.
