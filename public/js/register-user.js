@@ -26,10 +26,12 @@
             object.attr("required", false);
             object.attr("disabled", true);
             object.attr("visibility", "none");
+            object.parent().parent().hide();
         }
         else{
             object.attr("disabled", false);
             object.attr("required", true);
             object.attr("visibility", "inherit");
+            object.parent().parent().show();
         }
     }
