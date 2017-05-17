@@ -29,8 +29,9 @@ Route::get('/', function () {
      return view('home');
 })->middleware('auth');
 
-
-#Use CRUD URLs
+#Funding Opportunities
+Route::get('funding-opportunities/publicIndex', 'FundingOpportunityController@publicIndex'); #public
+#Backend.
 Route::resource('funding-opportunities', 'FundingOpportunityController', ['names' => [
         'index' => 'FundingOpportunities.index',
         'create' => 'FundingOpportunities.create',
@@ -40,6 +41,7 @@ Route::resource('funding-opportunities', 'FundingOpportunityController', ['names
         'update' => 'FundingOpportunities.update',
         'destroy' => 'FundingOpportunities.destroy'
 ]]);
+
 
 Route::resource('users', 'UserController');
 Route::post('/users', 'UserController@index'); #extra route needed.
