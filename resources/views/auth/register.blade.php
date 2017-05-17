@@ -20,7 +20,7 @@
 
                         @if(isset($user))
                             <h2>User: {{$user->username}}</h2>
-                            <h3> Status: {{$user->ldap_enabled ? 'LDAP USER' : 'Local Account'}}</h3>
+                            <h3> Status: {{$user->ldap_user ? 'LDAP USER' : 'Local Account'}}</h3>
                         @else
                         <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
                             <label for="username" class="col-md-4 control-label">User Name</label>
@@ -82,7 +82,7 @@
                                 @endif
                             </div>
                         </div>
-                        @if (isset($user))
+                        @if (isset($user) && !$user->ldap_user)
                             <div class="form-group{{ $errors->has('old_password') ? ' has-error' : '' }}">
                                 <label for="old_password" class="col-md-4 control-label">Old Password</label>
 
@@ -97,7 +97,7 @@
                                 </div>
                             </div>
                         @endif
-
+                        @if(!isset($user) || !$user->ldap_user)
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">{{isset($user) ? 'New Password' :'Password' }}</label>
 
@@ -119,6 +119,7 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" {{isset($user) ? '' :'required' }}>
                             </div>
                         </div>
+                        @endif
 
                         @if(Auth::user()->isAdmin())
                         <div class="form-group{{ $errors->has('enabled') ? ' has-error' : '' }}">

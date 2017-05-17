@@ -99,8 +99,8 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'username' => $data['username'],
-            'enabled' => $data['enabled'] !== null ? false : true,
-            'ldap_user' => false
+            'enabled' => isset($data['enabled']) ? 1 : 0,
+            'ldap_user' => 0
         ]);
     }
 
@@ -120,8 +120,8 @@ class RegisterController extends Controller
                 'email' =>$info[LDAP_authenticator::LDAP_USER_EMAIL],
                 'username' => $info[LDAP_authenticator::LDAP_USER_EID],
                 'password' => -1,
-                'ldap_user' => true,
-                'enabled' => isset($data['enabled']) ? false : true,
+                'ldap_user' => 1,
+                'enabled' => isset($data['enabled']) ? 1 : 0,
 
             ]);
         }

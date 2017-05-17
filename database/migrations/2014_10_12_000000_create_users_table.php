@@ -21,8 +21,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            $table->boolean('enabled')->default(false);
-            $table->boolean('ldap_user')->default(true);
+            $table->boolean('enabled')->default(0);
+            $table->boolean('ldap_user')->default(0);
         });
     }
 

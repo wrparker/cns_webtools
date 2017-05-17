@@ -71,7 +71,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
-        //
+        //This function is in RegisterController
     }
 
     /**
@@ -150,11 +150,20 @@ class UserController extends Controller
                 else{
                     $user->enabled = ($request->input('enabled') === null ? false : true);
                 }
-                if($request->input('groups') === null){  //Detach it all if there is nothing there.
-                    $user->groups()->detach();
+
+                //Groups
+
+                if($currentUser->id === $user->id && $currentUser->isAdmin() &&
+                    ($request->input('groups') === null || !in_array(APP_SUPERUSER, $request->input('groups')))){
+                    $request->session()->flash('error', 'You cannot remove yourself from super user group' . $user->name);
                 }
                 else{
-                    $user->groups()->sync($request->input('groups'));
+                    if($request->input('groups') === null){  //Detach it all if there is nothing there.
+                        $user->groups()->detach();
+                    }
+                    else{
+                        $user->groups()->sync($request->input('groups'));
+                    }
                 }
 
             }
@@ -171,13 +180,20 @@ class UserController extends Controller
             }
             $user->save();
 
-            if($request->input('groups') === null){  //Detach it all if there is nothing there.
-                $user->groups()->detach();
+            //Groups
+            if($currentUser->id === $user->id && $currentUser->isAdmin() &&
+                ( $request->input('groups') === null || !in_array(APP_SUPERUSER, $request->input('groups')))){
+                $request->session()->flash('error', 'You cannot remove yourself from super user group' . $user->name);
             }
             else{
-                $user->groups()->sync($request->input('groups'));
+                if($request->input('groups') === null){  //Detach it all if there is nothing there.
+                    $user->groups()->detach();
+                }
+                else{
+                    $user->groups()->sync($request->input('groups'));
+                }
+                $request->session()->flash('status', 'Successfully LDAP user: ' . $user->name);
             }
-            $request->session()->flash('status', 'Successfully LDAP user: ' . $user->name);
             return $currentUser->isAdmin() ? redirect(route('users.edit', $user->id)) : redirect('/');
         }
         else{

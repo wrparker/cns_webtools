@@ -68,7 +68,7 @@ class LoginController extends Controller
             return redirect::route('login')->withInput();
         }
 
-        else if($local_lookup[0]->enabled == false){
+        else if(!$local_lookup[0]->enabled){
             $request->session()->flash('error', Lang::get('auth.disabled'));
             return redirect::route('login')->withInput();
         }
@@ -88,7 +88,7 @@ class LoginController extends Controller
             }
             //2.2: See if the EID is in the system before trying to authenticate....
            else if (LDAP_authenticator::LDAPAuthenticateEIDPassword(trim($request->input('username')), $request->input('password'))) {
-                   $request->session()->flash('Login Successful.  Welcome!');
+                   Auth::login($local_lookup[0]);
                    return redirect()->intended($this->redirectTo);
                }
                else {
