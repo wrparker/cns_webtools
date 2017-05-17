@@ -87,10 +87,9 @@ class FundingOpportunityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(FundingOpportunity $funding_opportunity)
     {
-        $f = FundingOpportunity::findorFail($id);
-        return $f;
+        return $funding_opportunity;
     }
 
     /**
@@ -99,11 +98,9 @@ class FundingOpportunityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(FundingOpportunity $funding_opportunity)
     {
-        $funding_opp = FundingOpportunity::findOrFail($id);
-        return view('FundingOpportunities.opportunityEditor')->with('fundingOpp', $funding_opp);
-
+        return view('FundingOpportunities.opportunityEditor', compact('funding_opportunity'));
     }
 
     /**
@@ -113,13 +110,10 @@ class FundingOpportunityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, FundingOpportunity $funding_opportunity)
     {
-        $fundingOpp = FundingOpportunity::findorFail($id);
-        $fundingOpp = $this->request_to_DB_fields($fundingOpp, $request);
-        $fundingOpp->save();
-
-
+        $funding_opportunity = $this->request_to_DB_fields($fundingOpp, $request);
+        $funding_opportunity->save();
         $request->session()->flash('status', 'Successfully edited Funding Opportunity: ' .$fundingOpp->name);
         return redirect(route('FundingOpportunities.index'));
     }
@@ -131,12 +125,10 @@ class FundingOpportunityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, FundingOpportunity $funding_opportunity)
     {
-
-        $fundingOpp = FundingOpportunity::findorFail($id);
-        $name = $fundingOpp->name;
-        $fundingOpp->delete();
+        $name = $funding_opportunity->name;
+        $funding_opportunity->delete();
         $request->session()->flash('status', 'Successfully deleted Funding Opportunity: ' .$name);
         return redirect(route('FundingOpportunities.index'));
     }
