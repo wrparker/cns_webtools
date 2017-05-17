@@ -49,9 +49,3 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-/* the big to-do list
-1. Public API for accessing fundingopportunities.
-2. Math PhD Students
-3. Refactor RegisterController--a lot of redundant code
-4. Create "Template" app.
-*/
