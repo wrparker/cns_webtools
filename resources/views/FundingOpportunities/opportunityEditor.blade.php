@@ -7,6 +7,7 @@
         <div class="panel-heading">Funding Opportunities</div>
 
         <div class="panel-body">
+            <p><a href="{{route('FundingOpportunities.index')}}" > << Opportunity List</a></p>
             @if(isset($fundingOpp)) {{--Update Form or Creation--}}
                 <form method="post" action="{{route('FundingOpportunities.update', $fundingOpp->id)}}" >
                 {{ method_field('PUT') }}

@@ -18,6 +18,7 @@
                             @endif
 
                         @if(isset($user))
+                            <a href="{{route('users.index')}}" > << User List</a>
                             <h2>User: {{$user->username}}</h2>
                             <h3> Status: {{$user->ldap_user ? 'LDAP USER' : 'Local Account'}}</h3>
                         @else
