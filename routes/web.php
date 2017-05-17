@@ -30,7 +30,7 @@ Route::get('/', function () {
 })->middleware('auth');
 
 #Funding Opportunities
-Route::get('funding-opportunities/publicIndex', 'FundingOpportunityController@publicIndex'); #public
+
 #Backend.
 Route::resource('funding-opportunities', 'FundingOpportunityController', ['names' => [
         'index' => 'FundingOpportunities.index',
@@ -51,3 +51,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
+#API's (allow data retrieval without authentication)
+Route::group(['prefix' => 'api/'], function() {
+    #FundingOpportunity APIs
+    Route::get('funding-opportunities/', 'FundingOpportunityController@publicIndex');
+});

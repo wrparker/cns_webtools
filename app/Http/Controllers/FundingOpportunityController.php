@@ -46,25 +46,44 @@ class FundingOpportunityController extends Controller
         $search =$request->input('search');
         if(isset($search)){
             $FundingOpportunities = FundingOpportunity::where('name', 'LIKE', '%'.$request->input('search').'%')
-                ->orderBy('name')->paginate(25);
+                ->orderBy('name')->paginate(50);
             return view('FundingOpportunities.listOpportunity', compact('FundingOpportunities', 'search'));
         }
         else {
-            $FundingOpportunities = FundingOpportunity::orderBy('name')->paginate(25);
+            $FundingOpportunities = FundingOpportunity::orderBy('name')->paginate(50);
             return view('FundingOpportunities.listOpportunity', compact('FundingOpportunities'));
         }
     }
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource.  Specify "items" to get #items per page.
      *
+     * This should handle all the API requests.  Can add in searchability.
      * @return array \Illuminate\Http\Response
      */
-
-
-    public function publicIndex()
+    public function publicIndex(Request $request)
     {
-            $FundingOpportunities = FundingOpportunity::orderBy('name')->get();
-            return $FundingOpportunities;
+        if(isset($request->query()["searchName"])){
+        $FundingOpportunities = FundingOpportunity::where('name', 'LIKE', '%'.$request->query()["searchName"].'%')
+            ->orderby('name');
+            if(isset($request->query()["items"])){
+               return $FundingOpportunities->paginate($request->query()["items"])
+                    ->appends(['items' => $request->query()["items"],
+                          'searchName' => $request->query()['searchName'],
+                    ]);
+            }
+            else{
+                return $FundingOpportunities->get();
+            }
+
+        }
+
+        if(isset($request->query()["items"])){
+            return FundingOpportunity::orderBy('name')
+                ->paginate($request->query()["items"])->appends(['items' => $request->query()["items"]]);
+        }
+        else { //List All
+            return FundingOpportunity::orderBy('name')->get();
+        }
     }
 
     /**
