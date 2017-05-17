@@ -12,8 +12,10 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
+    'not_registered' => 'Your EID has not been registered with the system.  Contact The CNS Web Team for assistance',
+    'ldap_fail' => 'Cannot find ldap_connect function.  Please contact web team, a system administrator or disable AUTH_LDAP_ENABLED in routes/web.php.',
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'disabled' => 'Your account is disabled.  Please contact a CNS Web team member to get enabled.'
 
 ];

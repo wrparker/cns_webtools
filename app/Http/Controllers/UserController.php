@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    private $currentUser;
 
     public function __construct()
     {
@@ -24,15 +23,27 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $currentUser = User::findOrFail(Auth::id());
+        $search =$request->input('search');
         if($currentUser->isAdmin()) {
-            $users = User::orderBy('name')->paginate(25);
-            return view('users.listUsers', compact('users'));
+            if($search !== null){
+                $users = User::where('username', 'LIKE', '%'.$request->input('search').'%')->orderby('name')->paginate(25);
+                return view('users.listUsers', compact('users', 'search'));
+            }
+            else{
+
+                $users = User::orderBy('name')->paginate(25);
+                return view('users.listUsers', compact('users'));
+            }
+
         }
         else{
             $request->session()->flash('error', 'You are not authorized to view the User List');
-           return redirect('/');
+            return redirect('/');
         }
     }
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -59,7 +70,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        //This function is in RegisterController
     }
 
     /**
@@ -84,7 +96,7 @@ class UserController extends Controller
     {
         //
         $currentUser = User::findOrFail(Auth::id());
-        if($currentUser->id == $user->id || $currentUser->isAdmin()){ //userid= 1 is super user
+        if($currentUser->id == $user->id || $currentUser->isAdmin()){ //usergrp= 1 is super user
             return view('auth.register', compact('user'));
         }
         else{
@@ -102,9 +114,9 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-
+    //this really needs refactoring.
         $currentUser = User::findOrFail(Auth::id());
-        if ($currentUser->id == $user->id || $currentUser->isAdmin()) {
+        if ($currentUser->id == $user->id || $currentUser->isAdmin() && $user->ldap_user == false) {
             $validRules = [
                 'name' => 'required|max:255',
             ];
@@ -132,15 +144,56 @@ class UserController extends Controller
 
             //Only allow super users to make user group changes.
             if($currentUser->isAdmin()){
+                if($currentUser->id === $user->id && $request->input('enabled') === null) {
+                    $request->session()->flash('error', 'You cannot disable yourself.' . $user->name);
+                }
+                else{
+                    $user->enabled = ($request->input('enabled') === null ? false : true);
+                }
+
+                //Groups
+
+                if($currentUser->id === $user->id && $currentUser->isAdmin() &&
+                    ($request->input('groups') === null || !in_array(APP_SUPERUSER, $request->input('groups')))){
+                    $request->session()->flash('error', 'You cannot remove yourself from super user group' . $user->name);
+                }
+                else{
+                    if($request->input('groups') === null){  //Detach it all if there is nothing there.
+                        $user->groups()->detach();
+                    }
+                    else{
+                        $user->groups()->sync($request->input('groups'));
+                    }
+                }
+
+            }
+
+            $request->session()->flash('status', 'Successfully updated user: ' . $user->name);
+            return $currentUser->isAdmin() ? redirect(route('users.edit', $user->id)) : redirect('/');
+        }
+        else if ($user->ldap_user && $currentUser->isAdmin()){ //LDAP users can only have their user-groups updated.
+            if($currentUser->id === $user->id) {
+                $request->session()->flash('error', 'You cannot disable yourself.' . $user->name);
+            }
+            else {
+                $user->enabled = ($request->input('enabled') === null ? false : true);
+            }
+            $user->save();
+
+            //Groups
+            if($currentUser->id === $user->id && $currentUser->isAdmin() &&
+                ( $request->input('groups') === null || !in_array(APP_SUPERUSER, $request->input('groups')))){
+                $request->session()->flash('error', 'You cannot remove yourself from super user group' . $user->name);
+            }
+            else{
                 if($request->input('groups') === null){  //Detach it all if there is nothing there.
                     $user->groups()->detach();
                 }
                 else{
                     $user->groups()->sync($request->input('groups'));
                 }
+                $request->session()->flash('status', 'Successfully LDAP user: ' . $user->name);
             }
-
-            $request->session()->flash('status', 'Successfully updated user: ' . $user->name);
             return $currentUser->isAdmin() ? redirect(route('users.edit', $user->id)) : redirect('/');
         }
         else{
@@ -159,9 +212,10 @@ class UserController extends Controller
     {
 
         $currentUser = User::findOrFail(Auth::id());
-        if($currentUser->isAdmin()) { //userid= 1 is super user
+        if($currentUser->isAdmin() && $user->id !== $currentUser->id) { //userid= 1 is super user, dont let delete self.
             //delete user
             $user->delete();
+            return redirect(route('users.index'));
         }
         else{
             $request->session()->flash('error', 'You are not authorized to delete users');
@@ -169,4 +223,5 @@ class UserController extends Controller
         }
         //
     }
+
 }

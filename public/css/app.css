@@ -24,3 +24,27 @@ a div.appButton{
     color:white !important;
     padding:10px;
 }
+
+td, th{
+    padding:10px;
+    margin: 0 auto;
+}
+table{
+    margin-bottom:10px;
+}
+
+a.list{
+    text-decoration: underline;
+}
+a.list:hover{
+    color:orange;
+}
+
+input#search{
+    margin-bottom:10px;
+}
+
+button.delete{
+    margin-top:10px !important;
+    float:right;
+}

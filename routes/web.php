@@ -15,6 +15,8 @@
 
 //Global Constants -- Use this for readability and ensure it matches the "Groups" database.
 Route::group(['prefix' => ''], function() {
+    //Authentication
+    define('AUTH_LDAP_ENABLED',true);
     //Application IDs in Groups DB
     define('APP_SUPERUSER','1');
     define('APP_FUNDINGOPPORTUNITIES','2');
@@ -39,29 +41,11 @@ Route::resource('funding-opportunities', 'FundingOpportunityController', ['names
         'destroy' => 'FundingOpportunities.destroy'
 ]]);
 
-#Use CRUD URLs
-Route::resource('users', 'UserController', ['names' => [
-    'index' => 'Users.index',
-    'create' => 'Users.create',
-    'store' => 'Users.store',
-    'show' => 'Users.show',
-    'edit' => 'Users.edit',
-    'update' => 'Users.update',
-    'destroy' => 'Users.destroy'
-]]);
-
-
 Route::resource('users', 'UserController');
+Route::post('/users', 'UserController@index'); #extra route needed.
 
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-/* the big to-do list
-1. group_user needs a controller to control users getting added to group.  Use sync--figureo uto how it handles detach.
-2. let admins create users.
-3. math phd students
-4. home page should be a layout of apps.
-5. public API for accessing fundingopportunities.
-*/

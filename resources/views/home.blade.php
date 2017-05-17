@@ -14,8 +14,17 @@
                                 <hr>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form autocomplete="off" class="interactiveSearch ">
+                                    <input type="text" name="search" id="homeSearch" class="col-md-12 col-xs-12 form-control" placeholder="Name of app..."/>
+                                </form>
+                            </div>
+                            &nbsp;
+                        </div>
+                        <div class="row">
                             @foreach(Auth::user()->isAdmin() ? App\Group::all() : Auth::user()->groups as $group)
-                                    <div class="col-md-4 col-xs-12">
+                                    <div class="col-md-4 col-xs-12 apps">
                                         <a href={{route($group->route_prefix.'.index')}} class="appButton">
                                             <div class="col-md-11 btn btn-primary col-xs-12">
                                             {{$group->name}}
@@ -23,6 +32,7 @@
                                         </a>
                                     </div>
                             @endforeach
+                        </div>
                 </div>
             </div>
         </div>
@@ -30,4 +40,8 @@
 
 
 </div>
+@endsection
+
+@section('javascript')
+    <script type="text/javascript" src="{{ asset('js/home.js') }}"></script>
 @endsection

@@ -17,7 +17,7 @@ class AddInitialData extends Migration
             $data = array(
                 array('id' => '1', 'name' => 'Super User', 'route_prefix' => 'users' ),
                 array('id' => '2', 'name' => 'Funding Opportunities', 'route_prefix'=>'FundingOpportunities'),
-                array('id' => '3', 'name' => 'Math PhDs', 'route_prefix'=> 'FundingOpportunities'),  //place holder.
+                //array('id' => '3', 'name' => 'Math PhDs', 'route_prefix'=> 'na'),  //place holder.
             );
             DB::table('groups')->insert($data);
 
@@ -26,7 +26,7 @@ class AddInitialData extends Migration
         //Default password is admin
             $data = array(
               array('id' => 1, 'email' => 'webmaster@localhost', 'enabled' => true, 'name' => 'Super User',
-                  'password' => '$2y$10$OSwT0FOe6/Sc9MQDZJdmC.IeB4p/2ttLw3Qa/PZQWmpxIAIc8B2bi', 'username' => 'admin'),
+                  'password' => '$2y$10$OSwT0FOe6/Sc9MQDZJdmC.IeB4p/2ttLw3Qa/PZQWmpxIAIc8B2bi', 'username' => 'admin', 'ldap_user' => false),
             );
             DB::table('users')->insert($data);
 

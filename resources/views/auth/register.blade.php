@@ -2,7 +2,6 @@
 
 @section('content')
 
-
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -20,6 +19,7 @@
 
                         @if(isset($user))
                             <h2>User: {{$user->username}}</h2>
+                            <h3> Status: {{$user->ldap_user ? 'LDAP USER' : 'Local Account'}}</h3>
                         @else
                         <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
                             <label for="username" class="col-md-4 control-label">User Name</label>
@@ -34,6 +34,20 @@
                                 @endif
                             </div>
                         </div>
+                        @if(AUTH_LDAP_ENABLED)
+                            <div class="form-group{{ $errors->has('ldap_enabled') ? ' has-error' : '' }}">
+                                <label for="ldap_enabled" class="col-md-4 control-label">LDAP/EID Authenticated User?</label>
+                                <div class="col-md-6">
+                                    <input id="ldap_enabled" name="ldap_enabled" type="checkbox" {{AUTH_LDAP_ENABLED ?  'checked' : ''}}>
+                                    <span class="help-block">If LDAP user you only need to put in an EID on this form under 'User Name'.  Leave rest blank (except for enabled if you want to enable the account).</span>
+                                    @if ($errors->has('ldap_enabled'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('ldap_enabled') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+                            @endif
                         @endif
 
 
@@ -52,6 +66,8 @@
                             </div>
                         </div>
 
+
+
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
@@ -65,7 +81,7 @@
                                 @endif
                             </div>
                         </div>
-                        @if (isset($user))
+                        @if (isset($user) && !$user->ldap_user)
                             <div class="form-group{{ $errors->has('old_password') ? ' has-error' : '' }}">
                                 <label for="old_password" class="col-md-4 control-label">Old Password</label>
 
@@ -80,12 +96,12 @@
                                 </div>
                             </div>
                         @endif
-
+                        @if(!isset($user) || !$user->ldap_user)
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">{{isset($user) ? 'New Password' :'Password' }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" {{isset($user) ? '' :'required' }}>
+                                <input id="password" type="password" class="form-control" name="password" >
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">
@@ -102,6 +118,26 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" {{isset($user) ? '' :'required' }}>
                             </div>
                         </div>
+                        @endif
+
+                        @if(Auth::user()->isAdmin())
+                        <div class="form-group{{ $errors->has('enabled') ? ' has-error' : '' }}">
+                            <label for="enabled" class="col-md-4 control-label">Enabled?</label>
+                            <div class="col-md-6">
+                                <input id="enabled" name="enabled" type="checkbox" {{isset($user) && $user->enabled ? 'checked': '' }} >
+                                <span class="help-block">Disabled users cannot log in.</span>
+                                @if ($errors->has('enabled'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('enabled') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        @else
+                            <div class="col-md-4">User Status</div><div class="col-md-6">{{$user->enabled}}</div>
+                        @endif
+
+
 
                         @if (isset($user))
                             @if(Auth::user()->isAdmin())
@@ -115,7 +151,6 @@
                                     <p>There are no user groups!</p>
                                 @endforelse
                                </div>
-
                             @else
                                 <h3>You belong to:</h3>
                             <div class="row">
@@ -138,11 +173,19 @@
                                     @else
                                         Register User
                                     @endif
-
                                 </button>
                             </div>
                         </div>
                     </form>
+
+                        @if(isset($user) && Auth::user()->isAdmin())
+                         <form method="post" action="{{route('users.destroy', $user->id)}}"
+                            onsubmit="return ConfirmDelete()">
+                             {{csrf_field()}}
+                             <input type="hidden" id="_method" name="_method" value="delete">
+                             <button type="submit" class="btn btn-danger delete">Delete User</button>
+                         </form>
+                         @endif
                 </div>
             </div>
         </div>
@@ -150,3 +193,10 @@
 </div>
 
 @endsection
+
+@section('javascript')
+    @if(!isset($user))
+        <script type="text/javascript" src="{{ asset('js/register-user.js') }}"></script>
+    @endif
+@endsection
+
