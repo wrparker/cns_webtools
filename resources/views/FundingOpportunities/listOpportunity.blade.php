@@ -4,6 +4,8 @@
 
 
 @section('content')
+    {{--get route prefix.--}}
+    <?php $route = \App\Group::find(APP_FUNDINGOPPORTUNITIES)->route_prefix ?>
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">Funding Opportunities</div>
@@ -13,9 +15,9 @@
     The following are funding types that have been put into the system.
 </p>
 
-<p><a href="{{route('FundingOpportunities.create')}}" class="btn btn-success">Create a Funding Opportunity</a></p>
+<p><a href="{{route($route.'.create')}}" class="btn btn-success">Create a Funding Opportunity</a></p>
 
-<form method="get" action="{{route('FundingOpportunities.index')}}">
+<form method="get" action="{{route($route.'.index')}}">
     <input type="text" id="search" name="search" placeholder="Search by Type Name"
            @if(isset($search)) value="{{$search}}" @endif  >
     <button type="submit" class="btn search">Go</button>
@@ -35,7 +37,7 @@
             @foreach($FundingOpportunities as $FundingOpportunity)
             <tr>
                 <td>
-                    <a href="{{route('FundingOpportunities.edit', $FundingOpportunity->id)}}" class="list"> {{$FundingOpportunity->name}}</a>
+                    <a href="{{route($route.'.edit', $FundingOpportunity->id)}}" class="list"> {{$FundingOpportunity->name}}</a>
                 </td>
                 <td>
                     {{$FundingOpportunity->funding_type}}

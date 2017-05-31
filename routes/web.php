@@ -20,7 +20,7 @@ Route::group(['prefix' => ''], function() {
     //Application IDs in Groups DB These need to match.
     define('APP_SUPERUSER','1');
     define('APP_FUNDINGOPPORTUNITIES','2');
-    define('APP_MATHPHD','3');
+    define('APP_MATHPHDS','3');
     //end Application IDs
 });
 
@@ -45,13 +45,13 @@ Route::resource('funding-opportunities', 'FundingOpportunityController', ['names
 #Math Phds
 #Backend.
 Route::resource('math-phds', 'MathPhdController', ['names' => [
-    'index' => \App\Group::find(APP_MATHPHD)->route_prefix.'.index',
-    'create' => \App\Group::find(APP_MATHPHD)->route_prefix.'.create',
-    'store' => \App\Group::find(APP_MATHPHD)->route_prefix.'.store',
-    'show' => \App\Group::find(APP_MATHPHD)->route_prefix.'.show',
-    'edit' => \App\Group::find(APP_MATHPHD)->route_prefix.'.edit',
-    'update' => \App\Group::find(APP_MATHPHD)->route_prefix.'.update',
-    'destroy' => \App\Group::find(APP_MATHPHD)->route_prefix.'.destroy'
+    'index' => \App\Group::find(APP_MATHPHDS)->route_prefix.'.index',
+    'create' => \App\Group::find(APP_MATHPHDS)->route_prefix.'.create',
+    'store' => \App\Group::find(APP_MATHPHDS)->route_prefix.'.store',
+    'show' => \App\Group::find(APP_MATHPHDS)->route_prefix.'.show',
+    'edit' => \App\Group::find(APP_MATHPHDS)->route_prefix.'.edit',
+    'update' => \App\Group::find(APP_MATHPHDS)->route_prefix.'.update',
+    'destroy' => \App\Group::find(APP_MATHPHDS)->route_prefix.'.destroy'
 ]]);
 
 

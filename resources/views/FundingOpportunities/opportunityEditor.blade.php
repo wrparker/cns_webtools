@@ -2,17 +2,20 @@
 
 @section('content')
 
+    {{--get route prefix.--}}
+    <?php $route = \App\Group::find(APP_FUNDINGOPPORTUNITIES)->route_prefix ?>
+
     <div class="container">
     <div class="panel panel-default">
         <div class="panel-heading">Funding Opportunities</div>
 
         <div class="panel-body">
-            <p><a href="{{route('FundingOpportunities.index')}}" > << Opportunity List</a></p>
+            <p><a href="{{route($route.'.index')}}" > << Opportunity List</a></p>
             @if(isset($funding_opportunity)) {{--Update Form or Creation--}}
-                <form method="post" action="{{route('FundingOpportunities.update', $funding_opportunity->id)}}" >
+                <form method="post" action="{{route($route.'.update', $funding_opportunity->id)}}" >
                 {{ method_field('PUT') }}
             @else
-                <form method="post" action="{{route('FundingOpportunities.store')}}" >
+                <form method="post" action="{{route($route.'.store')}}" >
             @endif
             {{csrf_field()}}
 
@@ -102,11 +105,11 @@
                 @else
                     <button type="submit" class="btn btn-primary" id="createSubmitButton">Create Opportunity</button>
                 @endif
-                    <a href="{{route('FundingOpportunities.index')}}" class="btn btn-primary" id="createSubmitButton">Cancel</a>
+                    <a href="{{route($route.'.index')}}" class="btn btn-primary" id="createSubmitButton">Cancel</a>
 
     </form>
                         @if(isset($funding_opportunity))
-                         <form method="post" action="{{route('FundingOpportunities.destroy', $funding_opportunity->id)}}"
+                         <form method="post" action="{{route($route.'.destroy', $funding_opportunity->id)}}"
                                   onsubmit="return ConfirmDelete()">
                                 {{csrf_field()}}
                                 <input type="hidden" id="_method" name="_method" value="delete">
