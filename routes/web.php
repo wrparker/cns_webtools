@@ -17,7 +17,7 @@
 Route::group(['prefix' => ''], function() {
     //Authentication
     define('AUTH_LDAP_ENABLED',true);
-    //Application IDs in Groups DB
+    //Application IDs in Groups DB These need to match.
     define('APP_SUPERUSER','1');
     define('APP_FUNDINGOPPORTUNITIES','2');
     define('APP_MATHPHD','3');
@@ -33,13 +33,25 @@ Route::get('/', function () {
 
 #Backend.
 Route::resource('funding-opportunities', 'FundingOpportunityController', ['names' => [
-        'index' => 'FundingOpportunities.index',
-        'create' => 'FundingOpportunities.create',
-        'store' => 'FundingOpportunities.store',
-        'show' => 'FundingOpportunities.show',
-        'edit' => 'FundingOpportunities.edit',
-        'update' => 'FundingOpportunities.update',
-        'destroy' => 'FundingOpportunities.destroy'
+    'index' => \App\Group::find(APP_FUNDINGOPPORTUNITIES)->route_prefix.'.index',
+    'create' => \App\Group::find(APP_FUNDINGOPPORTUNITIES)->route_prefix.'.create',
+    'store' => \App\Group::find(APP_FUNDINGOPPORTUNITIES)->route_prefix.'.store',
+    'show' => \App\Group::find(APP_FUNDINGOPPORTUNITIES)->route_prefix.'.show',
+    'edit' => \App\Group::find(APP_FUNDINGOPPORTUNITIES)->route_prefix.'.edit',
+    'update' => \App\Group::find(APP_FUNDINGOPPORTUNITIES)->route_prefix.'.update',
+    'destroy' => \App\Group::find(APP_FUNDINGOPPORTUNITIES)->route_prefix.'.destroy'
+]]);
+
+#Math Phds
+#Backend.
+Route::resource('math-phds', 'MathPhdController', ['names' => [
+    'index' => \App\Group::find(APP_MATHPHD)->route_prefix.'.index',
+    'create' => \App\Group::find(APP_MATHPHD)->route_prefix.'.create',
+    'store' => \App\Group::find(APP_MATHPHD)->route_prefix.'.store',
+    'show' => \App\Group::find(APP_MATHPHD)->route_prefix.'.show',
+    'edit' => \App\Group::find(APP_MATHPHD)->route_prefix.'.edit',
+    'update' => \App\Group::find(APP_MATHPHD)->route_prefix.'.update',
+    'destroy' => \App\Group::find(APP_MATHPHD)->route_prefix.'.destroy'
 ]]);
 
 
@@ -55,4 +67,5 @@ Route::get('/home', 'HomeController@index');
 Route::group(['prefix' => 'api/'], function() {
     #FundingOpportunity APIs
     Route::get('funding-opportunities/', 'FundingOpportunityController@publicIndex');
+    Route::get('math-phds/', 'FundingOpportunityController@publicIndex');
 });

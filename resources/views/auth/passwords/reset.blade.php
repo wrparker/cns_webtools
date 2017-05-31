@@ -6,7 +6,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Reset Password</div>
-
+                <strong>Only local accounts can reset passwords.</strong>
                 <div class="panel-body">
                     @if (session('status'))
                         <div class="alert alert-success">
