@@ -15,12 +15,7 @@
 
 //Global Constants -- Use this for readability and ensure it matches the "Groups" database.
 Route::group(['prefix' => ''], function() {
-    //Authentication
-    define('AUTH_LDAP_ENABLED',true);
-    //Application IDs in Groups DB These need to match.
-    define('APP_SUPERUSER','1');
-    define('APP_FUNDINGOPPORTUNITIES','2');
-    define('APP_MATHPHDS','3');
+    include_once(base_path('app/includes/globals.inc.php'));
     //end Application IDs
 });
 
@@ -31,30 +26,6 @@ Route::get('/', function () {
 
 #Funding Opportunities
 
-#Backend.
-Route::resource('funding-opportunities', 'FundingOpportunityController', ['names' => [
-    'index' => \App\Group::find(APP_FUNDINGOPPORTUNITIES)->route_prefix.'.index',
-    'create' => \App\Group::find(APP_FUNDINGOPPORTUNITIES)->route_prefix.'.create',
-    'store' => \App\Group::find(APP_FUNDINGOPPORTUNITIES)->route_prefix.'.store',
-    'show' => \App\Group::find(APP_FUNDINGOPPORTUNITIES)->route_prefix.'.show',
-    'edit' => \App\Group::find(APP_FUNDINGOPPORTUNITIES)->route_prefix.'.edit',
-    'update' => \App\Group::find(APP_FUNDINGOPPORTUNITIES)->route_prefix.'.update',
-    'destroy' => \App\Group::find(APP_FUNDINGOPPORTUNITIES)->route_prefix.'.destroy'
-]]);
-
-#Math Phds
-#Backend.
-Route::resource('math-phds', 'MathPhdController', ['names' => [
-    'index' => \App\Group::find(APP_MATHPHDS)->route_prefix.'.index',
-    'create' => \App\Group::find(APP_MATHPHDS)->route_prefix.'.create',
-    'store' => \App\Group::find(APP_MATHPHDS)->route_prefix.'.store',
-    'show' => \App\Group::find(APP_MATHPHDS)->route_prefix.'.show',
-    'edit' => \App\Group::find(APP_MATHPHDS)->route_prefix.'.edit',
-    'update' => \App\Group::find(APP_MATHPHDS)->route_prefix.'.update',
-    'destroy' => \App\Group::find(APP_MATHPHDS)->route_prefix.'.destroy'
-]]);
-
-
 Route::resource('users', 'UserController');
 Route::post('/users', 'UserController@index'); #extra route needed.
 
@@ -64,8 +35,30 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 
 #API's (allow data retrieval without authentication)
+
+#TODO: We should ensure route caching is used here.
+foreach(\App\Group::all() as $application){
+    if($application->id !== 1){
+        Route::resource($application->route_url, $application->model_name.'Controller', ['names' => [
+            'index' => $application->route_prefix.'.index',
+            'create' => $application->route_prefix.'.create',
+            'store' => $application->route_prefix.'.store',
+            'show' => $application->route_prefix.'.show',
+            'edit' => $application->route_prefix.'.edit',
+            'update' => $application->route_prefix.'.update',
+            'destroy' => $application->route_prefix.'.destroy'
+        ]]);
+    }
+}
+
+#TODO: this is a closure so its not cached.  We should cache it somehow.
 Route::group(['prefix' => 'api/'], function() {
-    #FundingOpportunity APIs
-    Route::get('funding-opportunities/', 'FundingOpportunityController@publicIndex');
-    Route::get('math-phds/', 'FundingOpportunityController@publicIndex');
+    include_once(base_path('app/includes/public_API.inc.php'));
+    //foreach(\App\Group::all() as $application){
+
+   // }
+//        if($application->id !== 1) {
+ //       }
+  //  }
+     //This so we can generate automated apps quickly.
 });

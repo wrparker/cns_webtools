@@ -1,41 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
-
 use App\FundingOpportunity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-class FundingOpportunityController extends Controller
+
+class FundingOpportunityController extends WebAppController
 {
-
-    public function __construct()
-    {
-        //If statement below allows public showing of information.
-        //Do not require authentication or user group for @show action.
-        //Will likely need to add some query stuff for show... or something for searching.
-        if(Route::getcurrentRoute() !== null && strstr(Route::getCurrentRoute()->getActionName(), '@', false) !== "@publicIndex"){
-        $this->middleware(function ($request, $next) {
-            if(Auth::user() === null){  //prevents a null exception.
-                return redirect ('/');
-            }
-            else if(!Auth::user()->groups->contains(APP_FUNDINGOPPORTUNITIES)
-                    && !Auth::user()->groups->contains(APP_SUPERUSER) ){
-                $request->session()->flash('error', 'You are not authorized to the funding opportunities application.');
-                return redirect('/');
-            }
-            else{
-                return $next($request);
-            }
-        });
-        }
-
-
-
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -54,58 +27,7 @@ class FundingOpportunityController extends Controller
             return view('FundingOpportunities.listOpportunity', compact('FundingOpportunities'));
         }
     }
-    /**
-     * Display a listing of the resource.  Specify "items" to get #items per page.
-     *
-     * This should handle all the API requests.  Can add in searchability.
-     * @return array \Illuminate\Http\Response
-     */
-    public function publicIndex(Request $request)
-    {
-        //Build Append Array.
-        if(sizeof($request->query() == 0)){
-            return FundingOpportunity::orderBy('name')->get();
-        }
-        else{
-            $appendArray = array();
-            if(isset($request->query()["orderBy"])) {
-                $appendArray += ['orderBy' => $request->query()["orderBy"]];
-            }
 
-            if(isset($request->query()["searchName"])) {
-                $appendArray += ['searchName' => $request->query()["searchName"]];
-            }
-
-            //Items is always last.  It tells us to start pagination.
-            if(isset($request->query()["items"])) {
-                $appendArray += ['items' => $request->query()['items']];
-            }
-        }
-
-        //GET Query Parameter "searchName"
-        if(isset($request->query()["searchName"])){
-        $FundingOpportunities = FundingOpportunity::where('name', 'LIKE', '%'.$request->query()["searchName"].'%')
-            ->orderby('name');
-            if(isset($request->query()["items"])){
-               return $FundingOpportunities->paginate($request->query()["items"])
-                    ->appends(['items' => $request->query()["items"],
-                          'searchName' => $request->query()['searchName'],
-                    ]);
-            }
-            else{
-                return $FundingOpportunities->get();
-            }
-
-        }
-
-        if(isset($request->query()["items"])){
-            return FundingOpportunity::orderBy('name')
-                ->paginate($request->query()["items"])->appends(['items' => $request->query()["items"]]);
-        }
-        else { //List All
-            return FundingOpportunity::orderBy('name')->get();
-        }
-    }
 
     /**
      * Show the form for creating a new resource.
