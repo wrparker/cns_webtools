@@ -53,12 +53,9 @@ foreach(\App\Group::all() as $application){
 
 #TODO: this is a closure so its not cached.  We should cache it somehow.
 Route::group(['prefix' => 'api/'], function() {
-    include_once(base_path('app/includes/public_API.inc.php'));
-    //foreach(\App\Group::all() as $application){
-
-   // }
-//        if($application->id !== 1) {
- //       }
-  //  }
-     //This so we can generate automated apps quickly.
+    foreach(\App\Group::all() as $application) {
+        if ($application->id !== 1) {
+            Route::get($application->route_url, $application->model_name . 'Controller@publicIndex');
+        }
+    }
 });
