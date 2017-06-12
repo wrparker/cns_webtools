@@ -21,13 +21,13 @@ class WebAppController extends Controller
                 if(Auth::user() === null){  //prevents a null exception.
                     return redirect ('/');
                 }
-                else if(!Auth::user()->groups->contains(self::$model->getId())
-                    && !Auth::user()->isAdmin() ){ //Super User group.
-                    $request->session()->flash('error', 'You are not authorized to the funding opportunities application.');
-                    return redirect('/');
+                else if($this->verifyAccess()){
+                    return $next($request);
                 }
                 else{
-                    return $next($request);
+                    $request->session()->flash('error', 'You are not authorized to the funding opportunities application.');
+                    return redirect('/');
+
                 }
             });
         }
@@ -101,6 +101,31 @@ class WebAppController extends Controller
             else { //List All
                 return $model::orderBy('name')->get();
             }
+        }
+    }
+
+    /**
+     * Determines whether a user has backend access to a web application.
+     * @return boolean
+     */
+
+    public function verifyAccess(){
+        $className = get_class(self::$model);
+        $className = substr($className, 4);  //Remove the App\
+        $id =  \App\Group::where('model_name', $className)->get();
+        if(sizeof($id) > 1){
+            echo "Fatal Error.  Non-unique model_name.";
+            die();
+        }
+        if(Auth::user() === null){
+            echo "No use logged in.  Cannot use function";
+            die();
+        }
+        else if(Auth::user()->isAdmin() || Auth::user()->groups->contains($id[0]->id)){
+            return true;
+        }
+        else{
+            return false;
         }
     }
 
