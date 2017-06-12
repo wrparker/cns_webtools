@@ -13,9 +13,9 @@ class FundingOpportunityController extends WebAppController
     /**
      * Used in parent class for API.
      *
-     * @return \App\Model
+     * @return \App\Model (the model type you're going to use).
      */
-   public function setModel(){
+   public function constructorSetModel(){
        return new \App\FundingOpportunity();
     }
 

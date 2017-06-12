@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\Route;
 class WebAppController extends Controller
 {
     private static $model = null;
+    private static $modelGroupID = null;
 
     public function __construct()
     {
-        self::$model = $this->setModel();
+        self::$model = $this->constructorSetModel();
         //If statement below allows public showing of information.
         //Do not require authentication or user group for @show action.
         //Will likely need to add some query stuff for show... or something for searching.
@@ -34,14 +35,25 @@ class WebAppController extends Controller
     }
 
     /**
-    * Basically be able to set the model.  This function gets overriden in child class.
+    * Basically be able to set the model in constructor.  This function gets overriden in child class.
      *
      *@return null
      */
 
-    public function setModel(){
+    public function constructorSetModel(){
         return null;
     }
+
+    /**
+     * Basically be able to set the model.  This function gets overriden in child class.
+     *
+     *@return Model
+     */
+
+    public function getModel(){
+        return self::$model;
+    }
+
 
 
     /**
@@ -110,23 +122,28 @@ class WebAppController extends Controller
      */
 
     public function verifyAccess(){
-        $className = get_class(self::$model);
-        $className = substr($className, 4);  //Remove the App\
-        $id =  \App\Group::where('model_name', $className)->get();
-        if(sizeof($id) > 1){
-            echo "Fatal Error.  Non-unique model_name.";
-            die();
-        }
+        $id =  $this->getModelGroupID();
         if(Auth::user() === null){
             echo "No use logged in.  Cannot use function";
             die();
         }
-        else if(Auth::user()->isAdmin() || Auth::user()->groups->contains($id[0]->id)){
+        else if(Auth::user()->isAdmin() || Auth::user()->groups->contains($id)){
             return true;
         }
         else{
             return false;
         }
+    }
+
+    public function getModelGroupID(){
+        $className = get_class(self::$model);
+        $className = substr($className, 4);  //Remove the App\
+        $id =  \App\Group::where('model_name', $className)->get()[0]->id;
+        if(sizeof($id) > 1){
+            echo "Fatal Error.  Non-unique model_name.";
+            return false;
+        }
+        return $id;
     }
 
 }

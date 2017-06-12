@@ -5,7 +5,7 @@
 
 @section('content')
     {{--get route prefix.--}}
-    <?php $route = \App\Group::find(APP_FUNDINGOPPORTUNITIES)->route_prefix ?>
+    <?php $route = \App\Group::find($gid)->route_prefix ?>
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">Funding Opportunities</div>
