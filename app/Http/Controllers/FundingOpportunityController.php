@@ -9,6 +9,16 @@ use Illuminate\Support\Facades\Route;
 
 class FundingOpportunityController extends WebAppController
 {
+
+    /**
+     * Used in parent class for API.
+     *
+     * @return \App\Model
+     */
+   public function setModel(){
+       return new \App\FundingOpportunity();
+    }
+
     /**
      * Display a listing of the resource.
      *

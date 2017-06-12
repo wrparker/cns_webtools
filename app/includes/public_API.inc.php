@@ -4,7 +4,7 @@
  * php artisan command for generating a new application can be done in an automated and safe manner.*/
 #FundingOpportunity APIs
 
-Route::get('fund-opp', ['uses'=>'FundingOpportunityController@publicIndex', 'model' => new \App\FundingOpportunity()]);
+Route::get('fund-opp/', 'FundingOpportunityController@publicIndex');
 
 Route::get('funding-opportunities/', 'FundingOpportunityController@publicIndex', ['model' => new \App\FundingOpportunity()]);
 Route::get('math-phds/', 'FundingOpportunityController@publicIndex');

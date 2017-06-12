@@ -8,8 +8,11 @@ use Illuminate\Support\Facades\Route;
 
 class WebAppController extends Controller
 {
+    private static $model = null;
+
     public function __construct()
     {
+        self::$model = $this->setModel();
         //If statement below allows public showing of information.
         //Do not require authentication or user group for @show action.
         //Will likely need to add some query stuff for show... or something for searching.
@@ -30,6 +33,10 @@ class WebAppController extends Controller
         }
     }
 
+    public function setModel(){
+        return null;
+    }
+
 
     /**
      * Display a listing of the resource.  Specify "items" to get #items per page.
@@ -37,8 +44,10 @@ class WebAppController extends Controller
      * This should handle all the API requests.  Can add in searchability.
      * @return array \Illuminate\Http\Response
      */
-    public function publicIndex(Request $request, $model/* = null*/)
+    public function publicIndex(Request $request)
     {
+        $model = self::$model;
+        //$model = null;
         if($model === null){
             return "Error.  Model Null.";
         }
