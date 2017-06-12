@@ -21,8 +21,8 @@ class WebAppController extends Controller
                 if(Auth::user() === null){  //prevents a null exception.
                     return redirect ('/');
                 }
-                else if(!Auth::user()->groups->contains(APP_FUNDINGOPPORTUNITIES)  //TODO: change this.
-                    && !Auth::user()->groups->contains(APP_SUPERUSER) ){
+                else if(!Auth::user()->groups->contains(self::$model->getId())
+                    && !Auth::user()->isAdmin() ){ //Super User group.
                     $request->session()->flash('error', 'You are not authorized to the funding opportunities application.');
                     return redirect('/');
                 }
@@ -32,6 +32,12 @@ class WebAppController extends Controller
             });
         }
     }
+
+    /**
+    * Basically be able to set the model.  This function gets overriden in child class.
+     *
+     *@return null
+     */
 
     public function setModel(){
         return null;
