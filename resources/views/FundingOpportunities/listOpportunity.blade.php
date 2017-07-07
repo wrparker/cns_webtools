@@ -8,14 +8,14 @@
     <?php $route = \App\Group::find($gid)->route_prefix ?>
     <div class="container">
         <div class="panel panel-default">
-            <div class="panel-heading">Funding Opportunities</div>
+            <div class="panel-heading">{{\App\Group::find($gid)->name}}</div>
             <div class="container">
-<h1> Funding Opportunities</h1>
+<h1> {{\App\Group::find($gid)->name}}</h1>
 <p>
     The following are funding types that have been put into the system.
 </p>
 
-<p><a href="{{route($route.'.create')}}" class="btn btn-success">Create a Funding Opportunity</a></p>
+<p><a href="{{route($route.'.create')}}" class="btn btn-success">Create {{\App\Group::find($gid)->name}}</a></p>
 
 <form method="get" action="{{route($route.'.index')}}">
     <input type="text" id="search" name="search" placeholder="Search by Type Name"

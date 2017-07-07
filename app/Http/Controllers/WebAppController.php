@@ -9,11 +9,12 @@ use Illuminate\Support\Facades\Route;
 class WebAppController extends Controller
 {
     private static $model = null;
-    private static $modelGroupID = null;
+    public static $gid = null;
 
     public function __construct()
     {
         self::$model = $this->constructorSetModel();
+        self::$gid = $this->getModelGroupID();
         //If statement below allows public showing of information.
         //Do not require authentication or user group for @show action.
         //Will likely need to add some query stuff for show... or something for searching.

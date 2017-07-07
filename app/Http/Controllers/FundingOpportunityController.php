@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Route;
 
 class FundingOpportunityController extends WebAppController
 {
-
     /**
      * Used in parent class for API.
      *
@@ -26,15 +25,16 @@ class FundingOpportunityController extends WebAppController
      */
     public function index(Request $request)
     {
+        $gid = self::$gid;
         $search =$request->input('search');
         if(isset($search)){
             $FundingOpportunities = FundingOpportunity::where('name', 'LIKE', '%'.$request->input('search').'%')
                 ->orderBy('name')->paginate(50);
-            return view('FundingOpportunities.listOpportunity', compact('FundingOpportunities', 'search'));
+            return view('FundingOpportunities.listOpportunity', compact('FundingOpportunities', 'search' , 'gid'));
         }
         else {
             $FundingOpportunities = FundingOpportunity::orderBy('name')->paginate(50);
-            return view('FundingOpportunities.listOpportunity', compact('FundingOpportunities'));
+            return view('FundingOpportunities.listOpportunity', compact('FundingOpportunities', 'gid'));
         }
     }
 
@@ -46,7 +46,8 @@ class FundingOpportunityController extends WebAppController
      */
     public function create()
     {
-        return view('FundingOpportunities.opportunityEditor');
+        $gid = self::$gid;
+        return view('FundingOpportunities.opportunityEditor', compact('gid'));
     }
 
     /**
@@ -84,7 +85,8 @@ class FundingOpportunityController extends WebAppController
      */
     public function edit(FundingOpportunity $funding_opportunity)
     {
-        return view('FundingOpportunities.opportunityEditor', compact('funding_opportunity'));
+        $gid = self::$gid;
+        return view('FundingOpportunities.opportunityEditor', compact('funding_opportunity'. 'gid'));
     }
 
     /**
@@ -124,8 +126,8 @@ class FundingOpportunityController extends WebAppController
         $fundingOpp->announced = $request->input('announced');
         $fundingOpp->sponsor_deadline = $request->input('sponsor_deadline');
 
-        $fundingOpp->link_internal = ($request->input('link_internal') == null) ?  '' : $request->input('link_internal');
-        $fundingOpp->link_external =  ($request->input('link_external') == null) ? '' : $request->input('link_external');
+        $fundingOpp->link_internal = ($request->input('link_internal') == null) ?  null : $request->input('link_internal');
+        $fundingOpp->link_external =  ($request->input('link_external') == null) ? null : $request->input('link_external');
 
 
         $fundingOpp->internal_deadline = $request->input('internal_deadline');
@@ -148,8 +150,8 @@ class FundingOpportunityController extends WebAppController
             'internal_deadline'=> 'required|date_format:m/d/Y',
             'internal_deadline'=> 'required|date_format:m/d/Y',
             'funding_type'=> 'required',
-            'link_internal' => 'url',
-            'link_external' => 'url'
+            'link_internal' => 'nullable|url',
+            'link_external' => 'nullable|url'
         ]);
 
     }
