@@ -6,7 +6,7 @@
  * */
 
 //Authentication
-define('AUTH_LDAP_ENABLED',true);
+
 
 
 #Todo: get rid of these variables do everything in database.
