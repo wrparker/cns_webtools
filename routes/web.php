@@ -14,10 +14,9 @@
 
 
 //Global Constants -- Use this for readability and ensure it matches the "Groups" database.
-/*Route::group(['prefix' => ''], function() {
-    //include_once(base_path('app/includes/globals.inc.php'));
-    //end Application IDs
-});*/
+Route::group(['prefix' => ''], function() {
+ //dd(env('AUTH_LDAP_ENABLED'));
+});
 
 
 Route::get('/', function () {
