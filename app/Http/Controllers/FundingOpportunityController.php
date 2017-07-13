@@ -86,7 +86,7 @@ class FundingOpportunityController extends WebAppController
     public function edit(FundingOpportunity $funding_opportunity)
     {
         $gid = self::$gid;
-        return view('FundingOpportunities.opportunityEditor', compact('funding_opportunity'. 'gid'));
+        return view('FundingOpportunities.opportunityEditor', compact('funding_opportunity', 'gid'));
     }
 
     /**
