@@ -66,21 +66,20 @@ class WebAppController extends Controller
     public function publicIndex(Request $request)
     {
         $model = self::$model;
-        //$model = null;
+
         if($model === null){
             return "Error.  Model Null.";
         }
         else{
+            $orderBy =  (isset($request->query()["orderBy"]) ? $request->query()["orderBy"] : "id" );
+            $order = (isset($request->query()["order"]) ? $request->query()["order"] : "desc" );
+
             //Build Append Array.
             if(sizeof($request->query() == 0)){
-                return $model::orderBy('name')->get();
+                return $model::orderBy($orderBy, $order)->get();
             }
             else{
                 $appendArray = array();
-                if(isset($request->query()["orderBy"])) {
-                    $appendArray += ['orderBy' => $request->query()["orderBy"]];
-                }
-
                 if(isset($request->query()["searchName"])) {
                     $appendArray += ['searchName' => $request->query()["searchName"]];
                 }
@@ -99,9 +98,10 @@ class WebAppController extends Controller
                     return $models->paginate($request->query()["items"])
                         ->appends(['items' => $request->query()["items"],
                             'searchName' => $request->query()['searchName'],
-                        ]);
+                        ])->orderBy($orderBy, $order);
                 }
                 else{
+
                     return $models->get();
                 }
 
@@ -112,7 +112,8 @@ class WebAppController extends Controller
                     ->paginate($request->query()["items"])->appends(['items' => $request->query()["items"]]);
             }
             else { //List All
-                return $model::orderBy('name')->get();
+
+                return $model::orderBy($orderBy, $order)->get();
             }
         }
     }
