@@ -11,8 +11,8 @@
 
         <div class="panel-body">
             <p><a href="{{route($route.'.index')}}" > << Opportunity List</a></p>
-            @if(isset($funding_opportunity)) {{--Update Form or Creation--}}
-                <form method="post" action="{{route($route.'.update', $funding_opportunity->id)}}" >
+            @if(isset($item)) {{--Update Form or Creation--}}
+                <form method="post" action="{{route($route.'.update', $item->id)}}" >
                 {{ method_field('PUT') }}
             @else
                 <form method="post" action="{{route($route.'.store')}}" >
@@ -20,87 +20,13 @@
             {{csrf_field()}}
 
         <div class="form-group">
-            <label for="name">Opportunity Name</label>
+            <label for="name">Last Name </label>
             <input type="text" class="form-control" name="name" id="name" aria-describedby="nameHelp" placeholder=""
-                @if(isset($funding_opportunity)) value="{{$funding_opportunity->name}}" @endif />
+                @if(isset($item)) value="{{$item->name}}" @endif />
             <small id="nameHelp" class="form-text text-muted">Name of opportunity</small>
         </div>
 
-        <div class="form-group">
-            <label for="visible">Visibility:</label>
-        <select class="visible colorchanger" name="visible" id="visible" style="background-color:greenyellow">
-            <option selected value="1" style="background-color:greenyellow">Visible</option>
-            <option value="0" style="background-color:orangered"
-                    @if(isset($funding_opportunity)&&$funding_opportunity->visible == 0) selected @endif>Hidden</option>
-        </select>
-            <small id="visibleHelp" class="form-text text-muted">Controls whether displayed</small>
-        </div>
-
-        <div class="form-group">
-            <label for="status">Status:</label>
-            <select class="status colorchanger" name="status" id="status" style="background-color:greenyellow">
-                <option selected value="1" style="background-color:greenyellow">Open</option>
-                <option value="0" style="background-color:orangered"
-                        @if(isset($funding_opportunity)&&$funding_opportunity->status == 0) selected @endif>Closed/Recurring</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="limited_submission">Limited Submission?</label>
-            <select class="limited_submission" name="limited_submission" id="limited_submission">
-                <option selected value="1">Yes</option>
-                <option value="0"
-                        @if(isset($funding_opportunity)&&$funding_opportunity->limited_submission == 0) selected @endif>No</option>
-            </select>
-        </div>
-
-
-
-        <div class="form-group">
-            <label for="funding_type">Funding Type:</label>
-            <input type="text" class="form-control" name="funding_type" id="funding_type" aria-describedby="funding_type" placeholder=""
-                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->funding_type}}" @endif />
-            <small id="funding_type" class="form-text text-muted">Funding Type</small>
-        </div>
-
-        <div class="form-group">
-            <label for="link_external">External Documentation Link</label>
-            <input type="text" class="form-control" name="link_external" id="link_external" aria-describedby="link_externalHelp" placeholder="https://example.com"
-                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->link_external}}" @endif />
-            <small id="link_externalHelp" class="form-text text-muted">Funding Agency Documentation</small>
-        </div>
-        <div class="form-group">
-            <label for="link_internal">Internal (UT shared Box) Documentation Link</label>
-            <input type="text" class="form-control" name="link_internal" id="link_internal" aria-describedby="link_internalHelp" placeholder="https://utexas.apps.box.com/...."
-                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->link_internal}}" @endif />
-            <small id="link_internalHelp" class="form-text text-muted">UT box Link, or UT webpage, etc...</small>
-        </div>
-
-        <div class="form-group">
-            <label for="announced">Announced</label>
-            <input class="form-control datepick" id="announced" name="announced" placeholder="MM/DD/YYYY" type="text"
-                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->announced}}" @endif />
-            <span class="glyphicon glyphicon-calendar"></span>
-            <small id="announcedHelp" class="form-text text-muted">Announcement Date</small>
-
-        </div>
-
-        <div class="form-group">
-            <label for="sponsor_deadline">Sponsor Deadline</label>
-            <input type="text" class="form-control datepick" name="sponsor_deadline" id="sponsor_deadline" aria-describedby="sponsor_deadlineHelp" placeholder="MM/DD/YYYY"
-                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->sponsor_deadline}}" @endif />
-            <span class="glyphicon glyphicon-calendar"></span>
-            <small id="sponsor_deadlineHelp" class="form-text text-muted">Sponsor Deadline Date</small>
-        </div>
-
-        <div class="form-group">
-            <label for="internal_deadline">Internal Deadline</label>
-            <input type="text" class="form-control datepick" name="internal_deadline" id="internal_deadline" aria-describedby="internal_deadlineHelp" placeholder="MM/DD/YYYY"
-                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->internal_deadline}}" @endif />
-            <span class="glyphicon glyphicon-calendar"></span>
-            <small id="internal_deadlineHelp" class="form-text text-muted">Internal Deadline Date</small>
-        </div>
-                @if(isset($funding_opportunity)) {{--Update Form or Creation--}}
+                @if(isset($item)) {{--Update Form or Creation--}}
                     <button type="submit" class="btn btn-primary" id="createSubmitButton">Edit Opportunity</button>
                 @else
                     <button type="submit" class="btn btn-primary" id="createSubmitButton">Create Opportunity</button>
@@ -108,8 +34,8 @@
                     <a href="{{route($route.'.index')}}" class="btn btn-primary" id="createSubmitButton">Cancel</a>
 
     </form>
-                        @if(isset($funding_opportunity))
-                         <form method="post" action="{{route($route.'.destroy', $funding_opportunity->id)}}"
+                        @if(isset($item))
+                         <form method="post" action="{{route($route.'.destroy', $item->id)}}"
                                   onsubmit="return ConfirmDelete()">
                                 {{csrf_field()}}
                                 <input type="hidden" id="_method" name="_method" value="delete">
@@ -122,6 +48,6 @@
 @endsection
 
 @section('javascript')
-    <script type="text/javascript" src="{{ asset('js/funding-opportunities.js') }}"></script>
+   <!-- <script type="text/javascript" src="{{ asset('js/funding-opportunities.js') }}"></script> -->
 @endsection
 
