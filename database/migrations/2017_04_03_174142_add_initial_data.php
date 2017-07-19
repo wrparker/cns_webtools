@@ -15,9 +15,9 @@ class AddInitialData extends Migration
     {
         //Create first three tables.
             $data = array(
-                array('id' => '1', 'name' => 'Super User', 'route_prefix' => 'users' ),
-                array('id' => '2', 'name' => 'Funding Opportunities', 'route_prefix'=>'FundingOpportunities'),
-                //array('id' => '3', 'name' => 'Math PhDs', 'route_prefix'=> 'na'),  //place holder.
+                array('id' => '1', 'name' => 'Super User', 'route_prefix' => 'users', 'route_url' => ' ',  'model_name' => ' ' ),
+                array('id' => '2', 'name' => 'Funding Opportunities', 'route_prefix'=>'FundingOpportunities', 'route_url' => 'funding-opportunities',  'model_name' => 'FundingOpportunity'),
+
             );
             DB::table('groups')->insert($data);
 
@@ -46,8 +46,7 @@ class AddInitialData extends Migration
      */
     public function down()
     {
-        Schema::table('groups', function (Blueprint $table) {
-            //
-        });
+        App\Group::destroy(2);
+        App\Group::destroy(1);
     }
 }

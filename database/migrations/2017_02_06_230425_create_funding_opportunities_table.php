@@ -20,8 +20,8 @@ class CreateFundingOpportunitiesTable extends Migration
             $table->text('announced');
             $table->text('sponsor_deadline');
             $table->text('internal_deadline');
-            $table->text('link_internal');
-            $table->text('link_external');
+            $table->text('link_internal')->nullable();
+            $table->text('link_external')->nullable();
 
             $table->boolean('visible');
             $table->boolean('limited_submission'); #yes/no

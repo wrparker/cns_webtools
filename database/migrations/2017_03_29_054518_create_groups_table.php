@@ -18,6 +18,8 @@ class CreateGroupsTable extends Migration
             $table->timestamps();
             $table->string('name')->unique();
             $table->string('route_prefix')->unique();
+            $table->string('route_url')->unique();
+            $table->string('model_name')->unique();
         });
     }
 

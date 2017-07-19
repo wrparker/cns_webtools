@@ -32,7 +32,7 @@ class User extends Authenticatable
     }
 
     public function isAdmin(){
-        if($this->groups->contains(APP_SUPERUSER)){
+        if($this->groups->contains(1)){
             return true;
         }
         else{

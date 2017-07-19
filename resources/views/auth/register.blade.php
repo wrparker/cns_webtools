@@ -18,6 +18,7 @@
                             @endif
 
                         @if(isset($user))
+                            <a href="{{route('users.index')}}" > << User List</a>
                             <h2>User: {{$user->username}}</h2>
                             <h3> Status: {{$user->ldap_user ? 'LDAP USER' : 'Local Account'}}</h3>
                         @else
@@ -34,11 +35,11 @@
                                 @endif
                             </div>
                         </div>
-                        @if(AUTH_LDAP_ENABLED)
+                        @if(env('AUTH_LDAP_ENABLED') == 1)
                             <div class="form-group{{ $errors->has('ldap_enabled') ? ' has-error' : '' }}">
                                 <label for="ldap_enabled" class="col-md-4 control-label">LDAP/EID Authenticated User?</label>
                                 <div class="col-md-6">
-                                    <input id="ldap_enabled" name="ldap_enabled" type="checkbox" {{AUTH_LDAP_ENABLED ?  'checked' : ''}}>
+                                    <input id="ldap_enabled" name="ldap_enabled" type="checkbox" {{env('AUTH_LDAP_ENABLED') == 1 ?  'checked' : ''}}>
                                     <span class="help-block">If LDAP user you only need to put in an EID on this form under 'User Name'.  Leave rest blank (except for enabled if you want to enable the account).</span>
                                     @if ($errors->has('ldap_enabled'))
                                         <span class="help-block">

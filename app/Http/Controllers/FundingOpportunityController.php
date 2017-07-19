@@ -1,39 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-
-
 use App\FundingOpportunity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-class FundingOpportunityController extends Controller
+
+class FundingOpportunityController extends WebAppController
 {
-
-    public function __construct()
-    {
-        //If statement below allows public showing of information.
-        //Do not require authentication or user group for @show action.
-        //Will likely need to add some query stuff for show... or something for searching.
-        if(Route::getcurrentRoute() !== null && strstr(Route::getCurrentRoute()->getActionName(), '@', false) !== "@show"){
-        $this->middleware(function ($request, $next) {
-            if(Auth::user() === null){  //prevents a null exception.
-                return redirect ('/');
-            }
-            else if(!Auth::user()->groups->contains(APP_FUNDINGOPPORTUNITIES)
-                    && !Auth::user()->groups->contains(APP_SUPERUSER) ){
-                $request->session()->flash('error', 'You are not authorized to the funding opportunities application.');
-                return redirect('/');
-            }
-            else{
-                return $next($request);
-            }
-        });
-        }
-
-
-
+    /**
+     * Used in parent class for API.
+     *
+     * @return \App\Model (the model type you're going to use).
+     */
+   public function constructorSetModel(){
+       return new \App\FundingOpportunity();
     }
 
     /**
@@ -43,17 +25,19 @@ class FundingOpportunityController extends Controller
      */
     public function index(Request $request)
     {
+        $gid = self::$gid;
         $search =$request->input('search');
         if(isset($search)){
             $FundingOpportunities = FundingOpportunity::where('name', 'LIKE', '%'.$request->input('search').'%')
-                ->orderBy('id', 'desc')->paginate(25);
-            return view('FundingOpportunities.listOpportunity', compact('FundingOpportunities', 'search'));
+                ->orderBy('name')->paginate(50);
+            return view('FundingOpportunities.listOpportunity', compact('FundingOpportunities', 'search' , 'gid'));
         }
         else {
-            $FundingOpportunities = FundingOpportunity::orderBy('id', 'desc')->paginate(25);
-            return view('FundingOpportunities.listOpportunity', compact('FundingOpportunities'));
+            $FundingOpportunities = FundingOpportunity::orderBy('name')->paginate(50);
+            return view('FundingOpportunities.listOpportunity', compact('FundingOpportunities', 'gid'));
         }
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -62,7 +46,8 @@ class FundingOpportunityController extends Controller
      */
     public function create()
     {
-        return view('FundingOpportunities.opportunityEditor');
+        $gid = self::$gid;
+        return view('FundingOpportunities.opportunityEditor', compact('gid'));
     }
 
     /**
@@ -87,10 +72,9 @@ class FundingOpportunityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(FundingOpportunity $funding_opportunity)
     {
-        $f = FundingOpportunity::findorFail($id);
-        return $f;
+        return $funding_opportunity;
     }
 
     /**
@@ -99,11 +83,10 @@ class FundingOpportunityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(FundingOpportunity $funding_opportunity)
     {
-        $funding_opp = FundingOpportunity::findOrFail($id);
-        return view('FundingOpportunities.opportunityEditor')->with('fundingOpp', $funding_opp);
-
+        $gid = self::$gid;
+        return view('FundingOpportunities.opportunityEditor', compact('funding_opportunity', 'gid'));
     }
 
     /**
@@ -113,14 +96,11 @@ class FundingOpportunityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, FundingOpportunity $funding_opportunity)
     {
-        $fundingOpp = FundingOpportunity::findorFail($id);
-        $fundingOpp = $this->request_to_DB_fields($fundingOpp, $request);
-        $fundingOpp->save();
-
-
-        $request->session()->flash('status', 'Successfully edited Funding Opportunity: ' .$fundingOpp->name);
+        $funding_opportunity = $this->request_to_DB_fields($funding_opportunity, $request);
+        $funding_opportunity->save();
+        $request->session()->flash('status', 'Successfully edited Funding Opportunity: ' .$funding_opportunity->name);
         return redirect(route('FundingOpportunities.index'));
     }
 
@@ -131,12 +111,10 @@ class FundingOpportunityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, FundingOpportunity $funding_opportunity)
     {
-
-        $fundingOpp = FundingOpportunity::findorFail($id);
-        $name = $fundingOpp->name;
-        $fundingOpp->delete();
+        $name = $funding_opportunity->name;
+        $funding_opportunity->delete();
         $request->session()->flash('status', 'Successfully deleted Funding Opportunity: ' .$name);
         return redirect(route('FundingOpportunities.index'));
     }
@@ -148,13 +126,11 @@ class FundingOpportunityController extends Controller
         $fundingOpp->announced = $request->input('announced');
         $fundingOpp->sponsor_deadline = $request->input('sponsor_deadline');
 
-        $fundingOpp->link_internal = ($request->input('link_internal') == null) ?  '' : $request->input('link_internal');
-        $fundingOpp->link_external =  ($request->input('link_external') == null) ? '' : $request->input('link_external');
+        $fundingOpp->link_internal = ($request->input('link_internal') == null) ?  null : $request->input('link_internal');
+        $fundingOpp->link_external =  ($request->input('link_external') == null) ? null : $request->input('link_external');
 
 
         $fundingOpp->internal_deadline = $request->input('internal_deadline');
-        //$fundingOpp->link_internal = $request->input('link_internal');
-        //$fundingOpp->link_external = $request->input('link_external');
         $fundingOpp->visible = $request->input('visible');
         $fundingOpp->limited_submission = $request->input('limited_submission');
         $fundingOpp->status = $request->input('status');
@@ -173,7 +149,9 @@ class FundingOpportunityController extends Controller
             'sponsor_deadline'=> 'required|date_format:m/d/Y',
             'internal_deadline'=> 'required|date_format:m/d/Y',
             'internal_deadline'=> 'required|date_format:m/d/Y',
-            'funding_type'=> 'required',  //Uncomment when fixed...
+            'funding_type'=> 'required',
+            'link_internal' => 'nullable|url',
+            'link_external' => 'nullable|url'
         ]);
 
     }

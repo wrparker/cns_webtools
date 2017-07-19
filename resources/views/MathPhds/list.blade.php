@@ -23,40 +23,28 @@
     <button type="submit" class="btn search">Go</button>
 </form>
 
-    @if(isset($FundingOpportunities))
+    @if(isset($items))
     <table class="table-bordered">
         <thead>
         <tr>
-            <th>Opportunity Name</th>
-            <th>Type</th>
-            <th>Visibility</th>
-            <th>Created:</th>
-            <th>Updated:</th>
+            <th>Lastname, Firstname</th>
+            <th>Year</th>
         </tr>
         </thead>
-            @foreach($FundingOpportunities as $FundingOpportunity)
+            @foreach($items as $item)
             <tr>
                 <td>
-                    <a href="{{route($route.'.edit', $FundingOpportunity->id)}}" class="list"> {{$FundingOpportunity->name}}</a>
+                    <a href="{{route($route.'.edit', $item->id)}}" class="list"> {{$item->lastname}}, {{$item->firstname}}</a>
                 </td>
                 <td>
-                    {{$FundingOpportunity->funding_type}}
-                </td>
-                <td>
-                  {{$FundingOpportunity->visible ? 'Visible' : 'Hidden'}}
-                </td>
-                <td>
-                    {{$FundingOpportunity->created_at}}
-                </td>
-                <td>
-                    {{$FundingOpportunity->updated_at}}
+                    {{$item->year}}
                 </td>
             </tr>
                 @endforeach
     </table>
-    {{ $FundingOpportunities->links()}}
+    {{ $items->links()}}
         @else
-            <p>There are currently no funding opportunities available.</p>
+            <p>There are currently no Math PhDs available.</p>
         @endif
         </div></div></div></div>
 
