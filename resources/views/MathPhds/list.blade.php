@@ -27,12 +27,16 @@
     <table class="table-bordered">
         <thead>
         <tr>
+            <th>ID</th>
             <th>Lastname, Firstname</th>
             <th>Year</th>
         </tr>
         </thead>
             @foreach($items as $item)
             <tr>
+                <td>
+                    {{$item->id}}
+                </td>
                 <td>
                     <a href="{{route($route.'.edit', $item->id)}}" class="list"> {{$item->lastname}}, {{$item->firstname}}</a>
                 </td>

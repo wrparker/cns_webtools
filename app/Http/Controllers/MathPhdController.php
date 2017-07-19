@@ -30,11 +30,11 @@ class MathPhdController extends WebAppController
         if(isset($search)){
             $items = MathPhd::where('firstname', 'LIKE', '%'.$request->input('search').'%')
                 ->orWhere('lastname', 'LIKE', '%'.$request->input('search').'%')
-                ->orderBy('lastname')->paginate(50);
+                ->orderBy('id', 'desc')->paginate(50);
             return view('MathPhds.list', compact('items', 'search' , 'gid'));
         }
         else {
-            $items = MathPhd::orderBy('lastname')->paginate(50);
+            $items = MathPhd::orderBy('id', 'desc')->paginate(50);
             return view('MathPhds.list', compact('items', 'gid'));
         }
     }
@@ -47,6 +47,8 @@ class MathPhdController extends WebAppController
     public function create()
     {
         //
+        $gid = self::$gid;
+        return view('MathPhds.edit', compact('gid'));
     }
 
     /**
@@ -58,6 +60,12 @@ class MathPhdController extends WebAppController
     public function store(Request $request)
     {
         //
+        $item = new MathPhd();
+        //validate it here.
+        $item = $this->request_to_DB_fields($item, $request);
+        $item->save();
+        $request->session()->flash('status', 'Successfully created Math PhD: ' .$item->firstname . ' ' .$item->lastname);
+
     }
 
     /**
@@ -69,6 +77,7 @@ class MathPhdController extends WebAppController
     public function show(MathPhd $mathPhd)
     {
         //
+        return $mathPhd;
     }
 
     /**
@@ -80,6 +89,8 @@ class MathPhdController extends WebAppController
     public function edit(MathPhd $mathPhd)
     {
         //
+        $gid = self::$gid;
+        return view('MathPhds.edit', compact('mathPhd', 'gid'));
     }
 
     /**
@@ -91,7 +102,11 @@ class MathPhdController extends WebAppController
      */
     public function update(Request $request, MathPhd $mathPhd)
     {
-        //
+        $mathPhd = $this->request_to_DB_fields($mathPhd, $request);
+        $mathPhd->save();
+        $request->session()->flash('status', 'Successfully edited Math Phd: ' .$mathPhd->name);
+        return redirect(route('MathPhds.index'));
+
     }
 
     /**
@@ -100,8 +115,51 @@ class MathPhdController extends WebAppController
      * @param  \App\MathPhd  $mathPhd
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MathPhd $mathPhd)
+    public function destroy(Request $request, MathPhd $mathPhd)
     {
+        $name = $mathPhd->firstname . ' ' .$mathPhd->lastname;
+        $mathPhd->delete();
+        $request->session()->flash('status', 'Successfully deleted Math PhD: ' .$name);
+        return redirect(route('MathPhds.index'));
         //
+    }
+
+    //validation.
+
+    private function request_to_DB_fields($item, Request $request){
+        $this->request_through_validator($request);
+        $fundingOpp->name = $request->input('name');
+        $fundingOpp->timestamps;
+        $fundingOpp->announced = $request->input('announced');
+        $fundingOpp->sponsor_deadline = $request->input('sponsor_deadline');
+
+        $fundingOpp->link_internal = ($request->input('link_internal') == null) ?  null : $request->input('link_internal');
+        $fundingOpp->link_external =  ($request->input('link_external') == null) ? null : $request->input('link_external');
+
+
+        $fundingOpp->internal_deadline = $request->input('internal_deadline');
+        $fundingOpp->visible = $request->input('visible');
+        $fundingOpp->limited_submission = $request->input('limited_submission');
+        $fundingOpp->status = $request->input('status');
+        $fundingOpp->funding_type = $request->input('funding_type');
+        $fundingOpp->timestamps;
+        return $fundingOpp;
+    }
+
+    private function request_through_validator(Request $request){
+        $this->validate($request, [
+            'name' => 'required',
+            'visible' => 'required|boolean',
+            'status' => 'required|boolean',
+            'limited_submission' => 'required|boolean',
+            'announced' => 'required|date_format:m/d/Y',
+            'sponsor_deadline'=> 'required|date_format:m/d/Y',
+            'internal_deadline'=> 'required|date_format:m/d/Y',
+            'internal_deadline'=> 'required|date_format:m/d/Y',
+            'funding_type'=> 'required',
+            'link_internal' => 'nullable|url',
+            'link_external' => 'nullable|url'
+        ]);
+
     }
 }
