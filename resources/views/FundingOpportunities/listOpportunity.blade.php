@@ -24,6 +24,7 @@
 </form>
 
     @if(isset($FundingOpportunities))
+<form>
     <table class="table-bordered">
         <thead>
         <tr>
@@ -32,8 +33,11 @@
             <th>Visibility</th>
             <th>Created:</th>
             <th>Updated:</th>
+            <th>ID</th>
+            <th>&nbsp;</th>
         </tr>
         </thead>
+
             @foreach($FundingOpportunities as $FundingOpportunity)
             <tr>
                 <td>
@@ -51,13 +55,23 @@
                 <td>
                     {{$FundingOpportunity->updated_at}}
                 </td>
+                <td>
+                    {{$FundingOpportunity->id}}
+                </td>
+                <td>
+                    <input type="checkbox" id="item_{{$FundingOpportunity->id}}" name="item_{{$FundingOpportunity->id}}" class="rowSelection" />
+                </td>
             </tr>
                 @endforeach
+
     </table>
     {{ $FundingOpportunities->links()}}
         @else
             <p>There are currently no funding opportunities available.</p>
         @endif
+    <input type="submit" name="delete_bulk" id="delete_bulk" value="Delete selected" class="btn btn-danger delete" />
+</form>
+
         </div></div></div></div>
 
 @endsection
