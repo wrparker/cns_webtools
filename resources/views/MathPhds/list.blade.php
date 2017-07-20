@@ -56,7 +56,7 @@
         @endif
         <input type="submit" name="delete_bulk" id="delete_bulk" value="Delete selected" class="btn btn-danger delete" />
 </form>
-
+&nbsp;
         </div></div></div></div>
 
 @endsection
