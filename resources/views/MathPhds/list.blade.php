@@ -45,7 +45,7 @@
                     {{$item->year}}
                 </td>
                 <td>
-                    <input type="checkbox" id="item_{{$itemy->id}}" name="item_{{$item->id}}" class="rowSelection" />
+                    <input type="checkbox" id="item_{{$item->id}}" name="item_{{$item->id}}" class="rowSelection" />
                 </td>
             </tr>
                 @endforeach
