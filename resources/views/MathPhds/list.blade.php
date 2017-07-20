@@ -22,7 +22,7 @@
            @if(isset($search)) value="{{$search}}" @endif  >
     <button type="submit" class="btn search">Go</button>
 </form>
-
+<form>
     @if(isset($items))
     <table class="table-bordered">
         <thead>
@@ -43,6 +43,9 @@
                 <td>
                     {{$item->year}}
                 </td>
+                <td>
+                    <input type="checkbox" id="item_{{$itemy->id}}" name="item_{{$item->id}}" class="rowSelection" />
+                </td>
             </tr>
                 @endforeach
     </table>
@@ -50,6 +53,9 @@
         @else
             <p>There are currently no Math PhDs available.</p>
         @endif
+        <input type="submit" name="delete_bulk" id="delete_bulk" value="Delete selected" class="btn btn-danger delete" />
+</form>
+
         </div></div></div></div>
 
 @endsection
