@@ -30,6 +30,7 @@
             <th>ID</th>
             <th>Lastname, Firstname</th>
             <th>Year</th>
+            <th> &nbsp; </th>
         </tr>
         </thead>
             @foreach($items as $item)
