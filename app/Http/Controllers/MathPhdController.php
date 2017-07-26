@@ -127,7 +127,7 @@ class MathPhdController extends WebAppController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Removes the specified resources from storage
      *
      * @param  Request
      * @return \Illuminate\Http\Response
@@ -146,9 +146,6 @@ class MathPhdController extends WebAppController
         }
         $request->session()->flash('status', 'Successfully deleted selected items');
         return redirect(route('MathPhds.index'));
-
-
-
     }
 
 

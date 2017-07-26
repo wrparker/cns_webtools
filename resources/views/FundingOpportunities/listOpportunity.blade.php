@@ -24,7 +24,8 @@
 </form>
 
     @if(isset($FundingOpportunities))
-<form>
+<form method="post" action="{{route($route.'.destroyBulk')}}" >
+    {{csrf_field()}}
     <table class="table-bordered">
         <thead>
         <tr>

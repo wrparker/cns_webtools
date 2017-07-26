@@ -119,6 +119,28 @@ class FundingOpportunityController extends WebAppController
         return redirect(route('FundingOpportunities.index'));
     }
 
+    /**
+     * Removes the specified resources from storage
+     *
+     * @param  Request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyBulk(Request $request)
+    {
+        $toDelete = array_keys($request->toArray());
+        if(array_key_exists('delete_bulk', $request->toArray()) === true){
+            foreach($toDelete as $item){
+                if(strstr($item, "item_") !== false  ){
+                    $item = substr($item, 5);
+                    $del = FundingOpportunity::findOrFail($item);
+                    $del->delete();
+                }
+            }
+        }
+        $request->session()->flash('status', 'Successfully deleted selected items');
+        return redirect(route('FundingOpportunities.index'));
+    }
+
     private function request_to_DB_fields($fundingOpp, Request $request){
         $this->request_through_validator($request);
         $fundingOpp->name = $request->input('name');
