@@ -22,7 +22,10 @@
            @if(isset($search)) value="{{$search}}" @endif  >
     <button type="submit" class="btn search">Go</button>
 </form>
-<form>
+
+<form method="post" action="{{route($route.'.destroyBulk')}}" >
+    {{csrf_field()}}
+
     @if(isset($items))
     <table class="table-bordered">
         <thead>

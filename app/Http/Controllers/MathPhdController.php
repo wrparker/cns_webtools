@@ -109,6 +109,7 @@ class MathPhdController extends WebAppController
 
     }
 
+
     /**
      * Remove the specified resource from storage.
      *
@@ -117,12 +118,39 @@ class MathPhdController extends WebAppController
      */
     public function destroy(Request $request, MathPhd $mathPhd)
     {
+
         $name = $mathPhd->firstname . ' ' .$mathPhd->lastname;
         $mathPhd->delete();
         $request->session()->flash('status', 'Successfully deleted Math PhD: ' .$name);
         return redirect(route('MathPhds.index'));
         //
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  Request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyBulk(Request $request)
+    {
+        $toDelete = array_keys($request->toArray());
+        if(array_key_exists('delete_bulk', $request->toArray()) === true){
+            foreach($toDelete as $item){
+                if(strstr($item, "item_") !== false  ){
+                    $item = substr($item, 5);
+                    $del = MathPhd::findOrFail($item);
+                    $del->delete();
+                }
+            }
+        }
+        $request->session()->flash('status', 'Successfully deleted selected items');
+        return redirect(route('MathPhds.index'));
+
+
+
+    }
+
 
     //validation.
 
