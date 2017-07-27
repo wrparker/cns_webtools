@@ -90,7 +90,8 @@ class MathPhdController extends WebAppController
     {
         //
         $gid = self::$gid;
-        return view('MathPhds.edit', compact('mathPhd', 'gid'));
+        $item = $mathPhd;
+        return view('MathPhds.edit', compact('item', 'gid'));
     }
 
     /**
