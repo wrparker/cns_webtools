@@ -134,7 +134,7 @@ class UserController extends Controller
             $user->email = $request->input('email');
 
             if (array_key_exists('password', $validRules)) {
-                if (Hash::make($request->input('old_password')) == $user->password) {
+                if (Hash::check($request->input('old_password'), $user->password)) {
                     $user->password = Hash::make($request->input('password'));
                 } else {
                     $request->session()->flash('error', 'Bad Old Password -- Password not updated.' . $user->name);
