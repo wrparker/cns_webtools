@@ -25,6 +25,7 @@ This is where a list of To-Do Items will be stored throughout this process.
 1. Refactor RegisterController--a lot of redundant code
 2. Create "Template" app.
 3. Finish documentation on wiki
+4. Put bootstrap and JS resources local.
 
 ## Changelog
 Future changelog will go here once application hits production.
