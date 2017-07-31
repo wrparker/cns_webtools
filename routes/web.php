@@ -39,6 +39,9 @@ Route::get('/home', 'HomeController@index');
 if(Schema::hasTable('groups')){ #So we can still do migrations
     foreach(\App\Group::all() as $application){
         if($application->id !== 1){
+
+            Route::post($application->route_url.'/deleteBulk', $application->model_name.'Controller@destroyBulk' )->name($application->route_prefix.'.destroyBulk');
+
             Route::resource($application->route_url, $application->model_name.'Controller', ['names' => [
                 'index' => $application->route_prefix.'.index',
                 'create' => $application->route_prefix.'.create',
@@ -46,7 +49,7 @@ if(Schema::hasTable('groups')){ #So we can still do migrations
                 'show' => $application->route_prefix.'.show',
                 'edit' => $application->route_prefix.'.edit',
                 'update' => $application->route_prefix.'.update',
-                'destroy' => $application->route_prefix.'.destroy'
+                'destroy' => $application->route_prefix.'.destroy',
             ]]);
         }
     }

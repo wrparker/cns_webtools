@@ -17,4 +17,15 @@ function initializeDatePicker(){
     });
 }
 
+$( document ).ready(function() {
+    $(".rowSelection").change(function(){
+        if(this.checked){
+            $(this).closest('tr').css('background-color', '#FA8072');
+        }
+        else{
+            $(this).closest('tr').css('background-color', 'inherit');
+        }
 
+    })
+
+});

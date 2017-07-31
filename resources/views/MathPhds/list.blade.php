@@ -23,21 +23,32 @@
     <button type="submit" class="btn search">Go</button>
 </form>
 
+<form method="post" action="{{route($route.'.destroyBulk')}}" >
+    {{csrf_field()}}
+
     @if(isset($items))
     <table class="table-bordered">
         <thead>
         <tr>
+            <th>ID</th>
             <th>Lastname, Firstname</th>
             <th>Year</th>
+            <th> &nbsp; </th>
         </tr>
         </thead>
             @foreach($items as $item)
             <tr>
                 <td>
+                    {{$item->id}}
+                </td>
+                <td>
                     <a href="{{route($route.'.edit', $item->id)}}" class="list"> {{$item->lastname}}, {{$item->firstname}}</a>
                 </td>
                 <td>
                     {{$item->year}}
+                </td>
+                <td>
+                    <input type="checkbox" id="item_{{$item->id}}" name="item_{{$item->id}}" class="rowSelection" />
                 </td>
             </tr>
                 @endforeach
@@ -46,6 +57,9 @@
         @else
             <p>There are currently no Math PhDs available.</p>
         @endif
+        <input type="submit" name="delete_bulk" id="delete_bulk" value="Delete selected" class="btn btn-danger delete" />
+</form>
+&nbsp;
         </div></div></div></div>
 
 @endsection

@@ -27,7 +27,7 @@ class WebAppController extends Controller
                     return $next($request);
                 }
                 else{
-                    $request->session()->flash('error', 'You are not authorized to the funding opportunities application.');
+                    $request->session()->flash('error', 'You are not authorized to the '.get_class(self::$model).' application.');
                     return redirect('/');
 
                 }

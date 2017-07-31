@@ -24,6 +24,7 @@ class CreateMathPhdsTable extends Migration
             $table->text('job1')->nullable();
             $table->text('job')->nullable();
             $table->text('misc')->nullable();
+//            $table->timestamps();
         });
         DB::table('groups')->insert(array('id' => '3', 'name' => 'Math PhDs', 'route_prefix'=>'MathPhds', 'route_url' => 'math-phds',  'model_name' => 'MathPhd'));
         DB::insert(file_get_contents(base_path().'/phd_backup.sql'));

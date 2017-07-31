@@ -80,7 +80,7 @@ class LoginController extends Controller
         }
 
         //#2 Lets see if LDAP is enabled.  Controlled with globals in web.php
-       else if(env(AUTH_LDAP_ENABLED) == 1 && $local_lookup[0]->ldap_user == true){
+       else if(env('AUTH_LDAP_ENABLED') == 1 && $local_lookup[0]->ldap_user == true){
             //#2.1 before we auth with ldap, lets make sure that ldap_connect is a function we can actually call!
            if(function_exists('ldap_connect') === false){
                 $request->session()->flash('error', Lang::get('auth.ldap_fail'));
