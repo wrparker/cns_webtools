@@ -134,7 +134,7 @@ class UserController extends Controller
             $user->email = $request->input('email');
 
             if (array_key_exists('password', $validRules)) {
-                if (Hash::make($request->input('old_password')) == $user->password) {
+                if (Hash::check($request->input('old_password'), $user->password)) {
                     $user->password = Hash::make($request->input('password'));
                 } else {
                     $request->session()->flash('error', 'Bad Old Password -- Password not updated.' . $user->name);
@@ -154,7 +154,7 @@ class UserController extends Controller
                 //Groups
 
                 if($currentUser->id === $user->id && $currentUser->isAdmin() &&
-                    ($request->input('groups') === null || !in_array(APP_SUPERUSER, $request->input('groups')))){
+                    ($request->input('groups') === null || !in_array(1, $request->input('groups')))){  //1 = app_superuser
                     $request->session()->flash('error', 'You cannot remove yourself from super user group' . $user->name);
                 }
                 else{
@@ -182,7 +182,7 @@ class UserController extends Controller
 
             //Groups
             if($currentUser->id === $user->id && $currentUser->isAdmin() &&
-                ( $request->input('groups') === null || !in_array(APP_SUPERUSER, $request->input('groups')))){
+                ( $request->input('groups') === null || !in_array(1, $request->input('groups')))){  //1 = app_superuser
                 $request->session()->flash('error', 'You cannot remove yourself from super user group' . $user->name);
             }
             else{
