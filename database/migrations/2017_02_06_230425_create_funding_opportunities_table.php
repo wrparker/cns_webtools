@@ -18,6 +18,7 @@ class CreateFundingOpportunitiesTable extends Migration
             $table->text('name');
             $table->timestamps();
             $table->text('announced');
+            $table->text('agency');
             $table->text('sponsor_deadline');
             $table->text('internal_deadline');
             $table->text('link_internal')->nullable();

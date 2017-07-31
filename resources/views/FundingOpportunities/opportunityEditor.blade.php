@@ -55,38 +55,42 @@
             </select>
         </div>
 
-
+        <div class="form-group">
+            <label for="agency">Funding Agency:</label>
+            <input type="text" class="form-control" name="funding_type" id="funding_type" aria-describedby="agency" placeholder=""
+                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->agency}}"
+                   @else value="{{old('agency')}}" @endif />
+            <small id="agency" class="form-text text-muted">The funding agency supporting the grant (e.x. NIH, NSF, etc..)</small>
+        </div>
 
         <div class="form-group">
             <label for="funding_type">Funding Type:</label>
             <input type="text" class="form-control" name="funding_type" id="funding_type" aria-describedby="funding_type" placeholder=""
-                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->funding_type}}" @endif
-                   value="{{old('funding_type')}}" />
+                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->funding_type}}"
+                   @else value="{{old('funding_type')}}" @endif />
             <small id="funding_type" class="form-text text-muted">Funding Type</small>
         </div>
 
         <div class="form-group">
             <label for="link_external">External Documentation Link</label>
             <input type="text" class="form-control" name="link_external" id="link_external" aria-describedby="link_externalHelp" placeholder="https://example.com"
-                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->link_external}}" @endif
-                   value="{{old('link_external')}}" />
+                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->link_external}}"
+                   @else value="{{old('link_external')}}" @endif />
             <small id="link_externalHelp" class="form-text text-muted">Funding Agency Documentation (not required)</small>
         </div>
         <div class="form-group">
             <label for="link_internal">Internal (UT shared Box) Documentation Link</label>
             <input type="text" class="form-control" name="link_internal" id="link_internal" aria-describedby="link_internalHelp" placeholder="https://utexas.apps.box.com/...."
-                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->link_internal}}" @endif
-                   value="{{old('link_internal')}}"
-            />
+                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->link_internal}}"
+                   @else value="{{old('link_internal')}}" @endif />
             <small id="link_internalHelp" class="form-text text-muted">UT box Link, or UT webpage, etc (not required)</small>
         </div>
 
         <div class="form-group">
             <label for="announced">Announced</label>
             <input class="form-control datepick" id="announced" name="announced" placeholder="MM/DD/YYYY" type="text"
-                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->announced}}" @endif
-                   value="{{old('announced')}}"
-            />
+                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->announced}}"
+                   @else value="{{old('announced')}}" @endif />
             <span class="glyphicon glyphicon-calendar"></span>
             <small id="announcedHelp" class="form-text text-muted">Announcement Date</small>
 
@@ -95,8 +99,8 @@
         <div class="form-group">
             <label for="sponsor_deadline">Sponsor Deadline</label>
             <input type="text" class="form-control datepick" name="sponsor_deadline" id="sponsor_deadline" aria-describedby="sponsor_deadlineHelp" placeholder="MM/DD/YYYY"
-                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->sponsor_deadline}}" @endif
-                   value="{{old('sponsor_deadline')}}" />
+                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->sponsor_deadline}}"
+                   @else value="{{old('sponsor_deadline')}}" @endif />
             <span class="glyphicon glyphicon-calendar"></span>
             <small id="sponsor_deadlineHelp" class="form-text text-muted">Sponsor Deadline Date</small>
         </div>
@@ -104,8 +108,8 @@
         <div class="form-group">
             <label for="internal_deadline">Internal Deadline</label>
             <input type="text" class="form-control datepick" name="internal_deadline" id="internal_deadline" aria-describedby="internal_deadlineHelp" placeholder="MM/DD/YYYY"
-                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->internal_deadline}}" @endif
-                   value="{{old('internal_deadline')}}" />
+                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->internal_deadline}}"
+                   @else value="{{old('internal_deadline')}}" @endif />
             <span class="glyphicon glyphicon-calendar"></span>
             <small id="internal_deadlineHelp" class="form-text text-muted">Internal Deadline Date</small>
         </div>
