@@ -154,7 +154,7 @@ class UserController extends Controller
                 //Groups
 
                 if($currentUser->id === $user->id && $currentUser->isAdmin() &&
-                    ($request->input('groups') === null || !in_array(APP_SUPERUSER, $request->input('groups')))){
+                    ($request->input('groups') === null || !in_array(1, $request->input('groups')))){  //1 = app_superuser
                     $request->session()->flash('error', 'You cannot remove yourself from super user group' . $user->name);
                 }
                 else{
@@ -182,7 +182,7 @@ class UserController extends Controller
 
             //Groups
             if($currentUser->id === $user->id && $currentUser->isAdmin() &&
-                ( $request->input('groups') === null || !in_array(APP_SUPERUSER, $request->input('groups')))){
+                ( $request->input('groups') === null || !in_array(1, $request->input('groups')))){  //1 = app_superuser
                 $request->session()->flash('error', 'You cannot remove yourself from super user group' . $user->name);
             }
             else{
