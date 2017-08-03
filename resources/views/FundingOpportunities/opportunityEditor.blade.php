@@ -57,7 +57,7 @@
 
         <div class="form-group">
             <label for="agency">Funding Agency:</label>
-            <input type="text" class="form-control" name="funding_type" id="funding_type" aria-describedby="agency" placeholder=""
+            <input type="text" class="form-control" name="agency" id="agency" aria-describedby="agency" placeholder=""
                    @if(isset($funding_opportunity)) value="{{$funding_opportunity->agency}}"
                    @else value="{{old('agency')}}" @endif />
             <small id="agency" class="form-text text-muted">The funding agency supporting the grant (e.x. NIH, NSF, etc..)</small>
