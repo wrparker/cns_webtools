@@ -48,3 +48,7 @@ button.delete{
     margin-top:10px !important;
     float:right;
 }
+
+.table-bordered{
+    max-width:95%;
+}
