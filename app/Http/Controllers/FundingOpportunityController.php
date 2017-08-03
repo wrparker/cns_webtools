@@ -29,7 +29,7 @@ class FundingOpportunityController extends WebAppController
         $search =$request->input('search');
         if(isset($search)){
             $FundingOpportunities = FundingOpportunity::where('name', 'LIKE', '%'.$request->input('search').'%')
-                ->orderBy('name')->paginate(50);
+                ->orderBy('id', 'desc')->paginate(50);
             return view('FundingOpportunities.listOpportunity', compact('FundingOpportunities', 'search' , 'gid'));
         }
         else {
