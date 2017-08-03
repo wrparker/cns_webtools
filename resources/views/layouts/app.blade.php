@@ -114,9 +114,9 @@
     </div>
 
     <!-- Scripts -->
-    <link href="{{ asset('js/jquery-1.12.4.js') }}" rel="stylesheet">
-    <link href="{{ asset('js/jquery-ui.js') }}" rel="stylesheet">
-    <link href="{{ asset('js/bootstrap.min.js') }}" rel="stylesheet">
+    <script src="{{ asset('js/jquery-1.12.4.js') }}"></script>
+    <script src="{{ asset('js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}" ></script>
     <script src="{{ asset('js/app.js') }}"></script>
 
     @yield('javascript')
