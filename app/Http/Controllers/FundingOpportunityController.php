@@ -146,6 +146,7 @@ class FundingOpportunityController extends WebAppController
         $fundingOpp->name = $request->input('name');
         $fundingOpp->timestamps;
         $fundingOpp->announced = $request->input('announced');
+        $fundingOpp->agency = $request->input('agency');
         $fundingOpp->sponsor_deadline = $request->input('sponsor_deadline');
 
         $fundingOpp->link_internal = ($request->input('link_internal') == null) ?  null : $request->input('link_internal');
