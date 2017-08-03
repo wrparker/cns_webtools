@@ -33,7 +33,7 @@ class FundingOpportunityController extends WebAppController
             return view('FundingOpportunities.listOpportunity', compact('FundingOpportunities', 'search' , 'gid'));
         }
         else {
-            $FundingOpportunities = FundingOpportunity::orderBy('name')->paginate(50);
+            $FundingOpportunities = FundingOpportunity::orderBy('id', 'desc')->paginate(50);
             return view('FundingOpportunities.listOpportunity', compact('FundingOpportunities', 'gid'));
         }
     }
