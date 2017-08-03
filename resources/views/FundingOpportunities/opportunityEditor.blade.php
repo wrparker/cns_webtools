@@ -97,6 +97,15 @@
         </div>
 
         <div class="form-group">
+            <label for="internal_deadline">Internal Deadline</label>
+            <input type="text" class="form-control datepick" name="internal_deadline" id="internal_deadline" aria-describedby="internal_deadlineHelp" placeholder="MM/DD/YYYY"
+                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->internal_deadline}}"
+                   @else value="{{old('internal_deadline')}}" @endif />
+            <span class="glyphicon glyphicon-calendar"></span>
+            <small id="internal_deadlineHelp" class="form-text text-muted">Internal Deadline Date</small>
+        </div>
+
+        <div class="form-group">
             <label for="sponsor_deadline">Sponsor Deadline</label>
             <input type="text" class="form-control datepick" name="sponsor_deadline" id="sponsor_deadline" aria-describedby="sponsor_deadlineHelp" placeholder="MM/DD/YYYY"
                    @if(isset($funding_opportunity)) value="{{$funding_opportunity->sponsor_deadline}}"
@@ -105,14 +114,7 @@
             <small id="sponsor_deadlineHelp" class="form-text text-muted">Sponsor Deadline Date</small>
         </div>
 
-        <div class="form-group">
-            <label for="internal_deadline">Internal Deadline</label>
-            <input type="text" class="form-control datepick" name="internal_deadline" id="internal_deadline" aria-describedby="internal_deadlineHelp" placeholder="MM/DD/YYYY"
-                   @if(isset($funding_opportunity)) value="{{$funding_opportunity->internal_deadline}}"
-                   @else value="{{old('internal_deadline')}}" @endif />
-            <span class="glyphicon glyphicon-calendar"></span>
-            <small id="internal_deadlineHelp" class="form-text text-muted">Internal Deadline Date</small>
-        </div>
+
                 @if(isset($funding_opportunity)) {{--Update Form or Creation--}}
                     <button type="submit" class="btn btn-primary" id="createSubmitButton">Edit Opportunity</button>
                 @else
