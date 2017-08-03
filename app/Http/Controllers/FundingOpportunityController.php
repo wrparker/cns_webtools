@@ -173,7 +173,8 @@ class FundingOpportunityController extends WebAppController
             'internal_deadline'=> 'required|date_format:m/d/Y',
             'funding_type'=> 'required',
             'link_internal' => 'nullable|url',
-            'link_external' => 'nullable|url'
+            'link_external' => 'nullable|url',
+            'agency' => 'required'
         ]);
 
     }
