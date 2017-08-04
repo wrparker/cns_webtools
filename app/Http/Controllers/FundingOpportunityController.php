@@ -101,7 +101,7 @@ class FundingOpportunityController extends WebAppController
         $funding_opportunity = $this->request_to_DB_fields($funding_opportunity, $request);
         $funding_opportunity->save();
         $request->session()->flash('status', 'Successfully edited Funding Opportunity: ' .$funding_opportunity->name);
-        return redirect(route('FundingOpportunities.index'));
+        return redirect(route('FundingOpportunities.opportunityEditor', $funding_opportunity->id));
     }
 
     /**

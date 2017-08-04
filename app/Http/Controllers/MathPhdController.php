@@ -107,7 +107,7 @@ class MathPhdController extends WebAppController
         $mathPhd = $this->request_to_DB_fields($mathPhd, $request);
         $mathPhd->save();
         $request->session()->flash('status', 'Successfully edited Math Phd: ' .$mathPhd->name);
-        return redirect(route('MathPhds.index'));
+        return redirect(route('MathPhds.edit', $mathPhd->id));
 
     }
 
